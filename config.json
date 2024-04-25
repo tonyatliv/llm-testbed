@@ -1,7 +1,7 @@
 {
     "paths": {
-        "status": "./data/status",
-        "pdf": "./data/pdf",
-        "plaintext": "./data/plaintext"
+        "status": "./caches/status",
+        "pdf": "./caches/pdf",
+        "plaintext": "./caches/plaintext"
     }
 }

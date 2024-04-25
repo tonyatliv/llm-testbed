@@ -1,7 +1,5 @@
 
-/data/pdf/**
-/data/plaintext/**
-/data/status/**
+/caches/**
 
 **/.DS_Store
 
