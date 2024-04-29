@@ -6,11 +6,11 @@ from . import ConfigHandler
 class StatusHandler:
     __status = {}
     
-    def __init__(self, pubMedID: str):
+    def __init__(self, pmid: str):
         config = ConfigHandler()
         
-        self.__pubMedID = pubMedID
-        self.__filePath = os.path.join(config.getStatusFolderPath(), f"{self.__pubMedID}.json")
+        self.__pmid = pmid
+        self.__filePath = os.path.join(config.getStatusFolderPath(), f"{self.__pmid}.json")
         
         if os.path.isfile(self.__filePath):
             with open(self.__filePath, "r") as file:
@@ -22,8 +22,8 @@ class StatusHandler:
     def getStatusFilePath(self):
         return self.__filePath
     
-    def getPubMedID(self):
-        return self.__pubMedID
+    def getPMID(self):
+        return self.__pmid
     
     def getPDFPath(self):
         if not utils.hasattrdeep(self.__status, ["downloadPaper", "filename"]):
