@@ -8,6 +8,8 @@ def downloadPaper(id):
     if status.isPaperDownloaded():
         raise ValueError("Paper already downloaded")
     
+    # TODO - Make it fetch by id
+    
     pdfURL = "https://www.dovepress.com/getfile.php?fileID=15943"
     
     res = requests.get(pdfURL)
