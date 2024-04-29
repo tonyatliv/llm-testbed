@@ -1,11 +1,12 @@
 import sys
 import os
-import config
 import json
 import requests
 import utils
+from handlers import ConfigHandler
 
 def downloadPaper(id):
+    config = ConfigHandler()
     statusFilePath = os.path.join(config.getStatusFolderPath(), f"{id}.json")
     
     statusData = {}
@@ -25,7 +26,6 @@ def downloadPaper(id):
     if res.status_code != 200:
         print(res.reason)
         raise requests.exceptions.RequestException("Failed to fetch PDF")
-        sys.exit(1)
     
     # END TODO
     

@@ -1,12 +1,12 @@
 import sys
 import os
 import json
-import config
 import utils
-from handlers import StatusHandler
+from handlers import ConfigHandler
 from pdfminer.high_level import extract_text
 
 def convertPDF(id):
+    config = ConfigHandler()
     statusFilePath = os.path.join(config.getStatusFolderPath(), f"{id}.json")
     
     if not os.path.isfile(statusFilePath):
