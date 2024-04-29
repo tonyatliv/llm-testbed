@@ -8,7 +8,7 @@ class StatusHandler:
         config = handlers.ConfigHandler()
         
         self.__pubMedID = pubMedID
-        self.__filePath = os.path.join(config.getStatusFolderPath(), f"{id}.json")
+        self.__filePath = os.path.join(config.getStatusFolderPath(), f"{pubMedID}.json")
         
         if not os.path.isfile(self.__filePath):
             self.status = {}
@@ -39,5 +39,5 @@ class StatusHandler:
             
     def __saveStatus(self):
         with open(self.__filePath, "w") as file:
-            json.dump(file, self.status, indent=4)
+            json.dump(self.status, file, indent=4)
             
