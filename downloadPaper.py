@@ -1,28 +1,29 @@
 import sys
 import requests
+import metapub
 from handlers import StatusHandler
 
-def downloadPaper(id):
-    status = StatusHandler(id)
+def downloadPaper(pmid):
+    status = StatusHandler(pmid)
     
     if status.isPaperDownloaded():
         raise ValueError("Paper already downloaded")
     
     # TODO - Make it fetch by id
     
-    pdfURL = "https://www.dovepress.com/getfile.php?fileID=15943"
+    pdfURL = metapub.FindIt(pmid).url
+    if pdfURL is None:
+        raise ValueError("No PDF found for this paper.")
     
     res = requests.get(pdfURL)
     if res.status_code != 200:
         print(res.reason)
         raise requests.exceptions.RequestException("Failed to fetch PDF")
-    
-    # END TODO
         
     statusData = status.get()
     statusData["downloadPaper"] = {
         "status": "downloaded",
-        "filename": f"{id}.pdf"
+        "filename": f"{pmid}.pdf"
     }
     
     status.update(statusData)
@@ -36,13 +37,13 @@ def downloadPaper(id):
     
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python download_paper.py <paper_id>")
+        print("Usage: python download_paper.py <pmid>")
         sys.exit(1)
         
-    id = sys.argv[1]
+    pmid = sys.argv[1]
     
     try:
-        path = downloadPaper(id)
-        print(f"Paper with PMID {id} downloaded to {path}")
+        path = downloadPaper(pmid)
+        print(f"Paper with PMID {pmid} downloaded to {path}")
     except Exception as err:
         print(f"Error downloading paper: {err}")
