@@ -33,7 +33,7 @@ class StatusHandler:
     def isConvertedToPlaintext(self):
         return utils.hasattrdeep(self.status, ["convertPDF", "status"]) and self.status["convertPDF"]["status"] == "converted"    
     
-    def set(self, newStatus):
+    def update(self, newStatus):
         self.status = newStatus
         self.__saveStatus()
             
