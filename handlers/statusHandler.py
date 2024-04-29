@@ -1,6 +1,7 @@
 import os
 import config
 import json
+import utils
 
 class StatusHandler:
     def __init__(self, pubMedID: str):
@@ -17,6 +18,12 @@ class StatusHandler:
             
     def get(self):
         return self.status
+    
+    def isPaperDownloaded(self):
+        return utils.hasattrdeep(self.status, ["downloadPaper", "status"]) and self.status["downloadPaper"]["status"] == "downloaded"
+    
+    def isConvertedToPlaintext(self):
+        return utils.hasattrdeep(self.status, ["convertPDF", "status"]) and self.status["convertPDF"]["status"] == "converted"    
     
     def set(self, newStatus):
         self.status = newStatus
