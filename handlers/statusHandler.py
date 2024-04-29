@@ -13,7 +13,7 @@ class StatusHandler:
             return
         
         with open(self.filePath, "r") as file:
-            self.status = json.load()
+            self.status = json.load(file)
             
     def get(self):
         return self.status
