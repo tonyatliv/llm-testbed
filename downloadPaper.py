@@ -15,8 +15,7 @@ def downloadPaper(id):
             statusData = json.load(statusFile)
             
             if utils.hasattrdeep(statusData, ["downloadPaper", "status"]) and statusData["downloadPaper"]["status"] == "downloaded":
-                print("Paper already downloaded")
-                sys.exit(1)
+                raise ValueError("Paper already downloaded")
                 
     # TODO: Find way of fetching by PMID here (current solution is static and temporary since metapub doesn't support it)
     
@@ -25,7 +24,7 @@ def downloadPaper(id):
     res = requests.get(pdfURL)
     if res.status_code != 200:
         print(res.reason)
-        print("Failed to fetch PDF")
+        raise requests.exceptions.RequestException("Failed to fetch PDF")
         sys.exit(1)
     
     # END TODO
@@ -50,4 +49,7 @@ if __name__ == "__main__":
         
     id = sys.argv[1]
     
-    downloadPaper(id)
+    try:
+        downloadPaper(id)
+    except Exception as err:
+        print(f"Error downloading paper: {err}")

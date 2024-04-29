@@ -3,37 +3,33 @@ import os
 import json
 import config
 import utils
+from handlers import StatusHandler
 from pdfminer.high_level import extract_text
 
 def convertPDF(id):
     statusFilePath = os.path.join(config.getStatusFolderPath(), f"{id}.json")
     
     if not os.path.isfile(statusFilePath):
-        print("Status file not found. Download paper to create a status file for it.")
-        sys.exit(1)
+        raise FileNotFoundError("Status file not found. Download paper to create a status file for it.")
         
     with open(statusFilePath, "r") as statusFile:
         statusData = json.load(statusFile)
         
         if not (utils.hasattrdeep(statusData, ["downloadPaper", "status"]) and statusData["downloadPaper"]["status"] == "downloaded"):
-            print("Paper with provided ID has not been downloaded")
-            sys.exit(1)
+            raise ValueError("Paper with provided ID has not been downloaded")
             
         if utils.hasattrdeep(statusData, ["convertPDF", "status"]) and statusData["convertPDF"]["status"] == "converted":
-            print("PDF has already been converted to plaintext")
-            sys.exit(1)
+            raise ValueError("PDF has already been converted to plaintext")
             
         if not utils.hasattrdeep(statusData, ["downloadPaper", "filename"]):
-            print("File name for this PDF not found")
-            sys.exit(1)
+            raise KeyError("File name for this paper not found")
         
     pdfFileName = statusData["downloadPaper"]["filename"]
     pdfFilePath = os.path.join(config.getPDFsFolderPath(), f"{pdfFileName}")
     
     plaintextFilePath = os.path.join(config.getPlaintextFolderPath(), f"{id}.txt")
     if os.path.isfile(plaintextFilePath):
-        print("Plaintext file for this document already exists")
-        sys.exit(1)
+        raise FileExistsError("Plaintext file for this document already exists")
         
     plaintext = extract_text(pdfFilePath)
         
@@ -56,4 +52,7 @@ if __name__ == "__main__":
         
     id = sys.argv[1]
     
-    convertPDF(id)
+    try:
+        convertPDF(id)
+    except Exception as err:
+        print(f"Error converting PDF to plaintext: {str(err)}")
