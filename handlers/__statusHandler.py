@@ -1,10 +1,12 @@
 import os
-import config
 import json
 import utils
+import handlers
 
 class StatusHandler:
     def __init__(self, pubMedID: str):
+        config = handlers.ConfigHandler
+        
         self.pubMedID = pubMedID
         self.filePath = os.path.join(config.getStatusFolderPath(), f"{id}.json")
         

@@ -1,2 +1,2 @@
-from .configHandler import *
-from .statusHandler import *
+from .__configHandler import *
+from .__statusHandler import *
