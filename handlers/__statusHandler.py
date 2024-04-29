@@ -1,43 +1,47 @@
 import os
 import json
 import utils
-import handlers
+from . import ConfigHandler
 
 class StatusHandler:
+    __status = {}
+    
     def __init__(self, pubMedID: str):
-        config = handlers.ConfigHandler()
+        config = ConfigHandler()
         
         self.__pubMedID = pubMedID
-        self.__filePath = os.path.join(config.getStatusFolderPath(), f"{pubMedID}.json")
+        self.__filePath = os.path.join(config.getStatusFolderPath(), f"{self.__pubMedID}.json")
         
-        if not os.path.isfile(self.__filePath):
-            self.status = {}
-            self.__saveStatus()
-            return
-        
-        with open(self.__filePath, "r") as file:
-            self.status = json.load(file)
+        if os.path.isfile(self.__filePath):
+            with open(self.__filePath, "r") as file:
+                self.__status = json.load(file)
             
     def get(self):
-        return self.status
+        return self.__status
     
-    def getFilePath(self):
+    def getStatusFilePath(self):
         return self.__filePath
     
     def getPubMedID(self):
         return self.__pubMedID
     
-    def isPaperDownloaded(self):
-        return utils.hasattrdeep(self.status, ["downloadPaper", "status"]) and self.status["downloadPaper"]["status"] == "downloaded"
+    def getPDFPath(self):
+        if not utils.hasattrdeep(self.__status, ["downloadPaper", "filename"]):
+            raise KeyError("No PDF name found.")
+        
+        return os.path.join(ConfigHandler().getPDFsFolderPath(), f"{self.__status['downloadPaper']['filename']}")
     
-    def isConvertedToPlaintext(self):
-        return utils.hasattrdeep(self.status, ["convertPDF", "status"]) and self.status["convertPDF"]["status"] == "converted"    
+    def isPaperDownloaded(self):
+        return utils.hasattrdeep(self.__status, ["downloadPaper", "status"]) and self.__status["downloadPaper"]["status"] == "downloaded"
+    
+    def isPaperConverted(self):
+        return utils.hasattrdeep(self.__status, ["convertPDF", "status"]) and self.__status["convertPDF"]["status"] == "converted"    
     
     def update(self, newStatus):
-        self.status = newStatus
+        self.__status = newStatus
         self.__saveStatus()
             
     def __saveStatus(self):
         with open(self.__filePath, "w") as file:
-            json.dump(self.status, file, indent=4)
+            json.dump(self.__status, file, indent=4)
             

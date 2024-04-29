@@ -2,47 +2,36 @@ import sys
 import os
 import json
 import utils
-from handlers import ConfigHandler
+from handlers import ConfigHandler, StatusHandler
 from pdfminer.high_level import extract_text
 
 def convertPDF(id):
     config = ConfigHandler()
-    statusFilePath = os.path.join(config.getStatusFolderPath(), f"{id}.json")
+    status = StatusHandler(id)
     
-    if not os.path.isfile(statusFilePath):
-        raise FileNotFoundError("Status file not found. Download paper to create a status file for it.")
-        
-    with open(statusFilePath, "r") as statusFile:
-        statusData = json.load(statusFile)
-        
-        if not (utils.hasattrdeep(statusData, ["downloadPaper", "status"]) and statusData["downloadPaper"]["status"] == "downloaded"):
-            raise ValueError("Paper with provided ID has not been downloaded")
-            
-        if utils.hasattrdeep(statusData, ["convertPDF", "status"]) and statusData["convertPDF"]["status"] == "converted":
-            raise ValueError("PDF has already been converted to plaintext")
-            
-        if not utils.hasattrdeep(statusData, ["downloadPaper", "filename"]):
-            raise KeyError("File name for this paper not found")
-        
-    pdfFileName = statusData["downloadPaper"]["filename"]
-    pdfFilePath = os.path.join(config.getPDFsFolderPath(), f"{pdfFileName}")
+    if not status.isPaperDownloaded():
+        raise ValueError("Paper with provided ID has not been downloaded")
     
+    if status.isPaperConverted():
+        raise ValueError("PDF has already been converted to plaintext")
+
     plaintextFilePath = os.path.join(config.getPlaintextFolderPath(), f"{id}.txt")
     if os.path.isfile(plaintextFilePath):
         raise FileExistsError("Plaintext file for this document already exists")
-        
-    plaintext = extract_text(pdfFilePath)
+    
+    pdfPath = status.getPDFPath()
+    plaintext = extract_text(pdfPath)
         
     with open(plaintextFilePath, "w") as plaintextFile:
         plaintextFile.write(plaintext)
             
+    statusData = status.get()
     statusData["convertPDF"] = {
         "status": "converted",
         "filename": f"{id}.txt"
     }
-
-    with open(statusFilePath, "w") as statusFile:
-        json.dump(statusData, statusFile, indent=4)
+    
+    status.update(statusData)
     
 
 if __name__ == "__main__":
