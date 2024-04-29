@@ -26,10 +26,13 @@ def downloadPaper(id):
     }
     
     status.update(statusData)
-    print(status.get())
     
-    with open(status.getPDFPath(), "wb") as pdfFile:
+    pdfPath = status.getPDFPath()
+    
+    with open(pdfPath, "wb") as pdfFile:
         pdfFile.write(res.content)
+        
+    return pdfPath
     
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -39,6 +42,7 @@ if __name__ == "__main__":
     id = sys.argv[1]
     
     try:
-        downloadPaper(id)
+        path = downloadPaper(id)
+        print(f"Paper with PMID {id} downloaded to {path}")
     except Exception as err:
         print(f"Error downloading paper: {err}")

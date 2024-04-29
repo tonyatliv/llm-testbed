@@ -31,6 +31,8 @@ def convertPDF(id):
     
     status.update(statusData)
     
+    return plaintextFilePath
+    
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -40,6 +42,7 @@ if __name__ == "__main__":
     id = sys.argv[1]
     
     try:
-        convertPDF(id)
+        path = convertPDF(id)
+        print(f"PDF with PMID converted to plaintext and saved to {path}")
     except Exception as err:
-        print(f"Error converting PDF to plaintext: {str(err)}")
+        print(f"Error converting PDF to plaintext: {err}")
