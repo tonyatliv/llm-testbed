@@ -1,7 +1,5 @@
 import sys
 import os
-import json
-import utils
 from handlers import ConfigHandler, StatusHandler
 from pdfminer.high_level import extract_text
 
