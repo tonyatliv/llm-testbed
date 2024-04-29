@@ -43,6 +43,6 @@ if __name__ == "__main__":
     
     try:
         path = convertPDF(id)
-        print(f"PDF with PMID converted to plaintext and saved to {path}")
+        print(f"PDF with PMID {id} converted to plaintext and saved to {path}")
     except Exception as err:
         print(f"Error converting PDF to plaintext: {err}")
