@@ -1,6 +1,5 @@
 import sys
 from handlers import StatusHandler
-import metapub
 import json
 import os
 import requests
@@ -10,10 +9,6 @@ def getSectionsJSON(pmid: str):
     
     if status.areSectionsFetched():
         raise ValueError("Sections already fetched")
-    
-    # article = metapub.PubMedFetcher().article_by_pmid(pmid)
-    # if article is None:
-    #     raise ValueError(f"No article found for provided PMID ({pmid})")
     
     url = os.path.join("https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json", pmid, "unicode")
     
