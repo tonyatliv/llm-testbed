@@ -10,7 +10,7 @@ def getSectionsJSON(pmid: str):
     if status.areSectionsFetched():
         raise ValueError("Sections already fetched")
     
-    url = os.path.join("https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json", pmid, "unicode")
+    url = f"https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/{pmid}/unicode"
     
     res = requests.get(url)
     if res.status_code != 200:
