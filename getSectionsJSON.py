@@ -1,7 +1,6 @@
 import sys
 from handlers import StatusHandler
 import json
-import os
 import requests
 
 def getSectionsJSON(pmid: str):
