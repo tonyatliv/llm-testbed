@@ -2,20 +2,26 @@ import json
 import os
 
 class ConfigHandler:
-    def __init__(self, file=os.getenv("LLM_TESTBED_CONFIG_PATH")):
+    def __init__(self, file=str(os.getenv("LLM_TESTBED_CONFIG_PATH"))):
         self.file = file
         with open(file, "r") as f:
-            self.config = json.load(f)
+            self.__config = json.load(f)
+            
+    def getConfig(self):
+        return self.__config
             
     def refresh(self):
         with open(self.file, "r") as f:
-            self.config = json.load(f)
+            self.__config = json.load(f)
             
     def getStatusFolderPath(self):
-        return self.config["paths"]["status"]
+        return self.__config["paths"]["status"]
     
     def getPDFsFolderPath(self):
-        return self.config["paths"]["pdf"]
+        return self.__config["paths"]["pdf"]
     
     def getPlaintextFolderPath(self):
-        return self.config["paths"]["plaintext"]
+        return self.__config["paths"]["plaintext"]
+    
+    def getSectionsFolderPath(self):
+        return self.__config["paths"]["sections"]

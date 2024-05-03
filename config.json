@@ -2,6 +2,7 @@
     "paths": {
         "status": "./caches/status",
         "pdf": "./caches/pdf",
-        "plaintext": "./caches/plaintext"
+        "plaintext": "./caches/plaintext",
+        "sections": "./caches/sections"
     }
 }
