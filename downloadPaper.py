@@ -9,8 +9,6 @@ def downloadPaper(pmid):
     if status.isPaperDownloaded():
         raise ValueError("Paper already downloaded")
     
-    # TODO - Make it fetch by id
-    
     pdfURL = metapub.FindIt(pmid).url
     if pdfURL is None:
         raise ValueError("No PDF found for this paper.")

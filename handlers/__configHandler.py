@@ -1,7 +1,8 @@
 import json 
+import os
 
 class ConfigHandler:
-    def __init__(self, file="config.json"):
+    def __init__(self, file=os.getenv("LLM_TESTBED_CONFIG_PATH")):
         self.file = file
         with open(file, "r") as f:
             self.config = json.load(f)
