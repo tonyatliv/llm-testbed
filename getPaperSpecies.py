@@ -6,6 +6,9 @@ def getPaperSpecies(pmid):
     status = StatusHandler(pmid)
     client = Anthropic()
     
+    if not status.isPaperConverted():
+        return ValueError("Paper has not yet been converted to plaintext")
+    
     plaintextFilePath = status.getPlaintextFilePath()
     with open(plaintextFilePath) as plaintextFile:
         promptText = plaintextFile.read()
