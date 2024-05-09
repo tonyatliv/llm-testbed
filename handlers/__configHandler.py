@@ -23,5 +23,8 @@ class ConfigHandler:
     def getPlaintextFolderPath(self):
         return self.__config["paths"]["plaintext"]
     
-    def getSectionsFolderPath(self):
+    def getJSONFolderPath(self):
         return self.__config["paths"]["sections"]
+    
+    def getMergeSectionsSections(self):
+        return self.__config["getTextFromJSON"]["sections"]

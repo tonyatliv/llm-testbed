@@ -34,22 +34,29 @@ class StatusHandler:
         return self.__pmid
     
     def getPDFPath(self):
-        if not utils.hasattrdeep(self.__status, ["downloadPaper", "filename"]):
-            raise KeyError("No PDF name found.")
+        if not utils.hasattrdeep(self.__status, ["getPaperPDF", "filename"]):
+            raise KeyError("No PDF filename found.")
         
-        return os.path.join(ConfigHandler().getPDFsFolderPath(), self.__status['downloadPaper']['filename'])
+        return os.path.join(ConfigHandler().getPDFsFolderPath(), self.__status['getPaperPDF']['filename'])
     
-    def isPaperDownloaded(self):
-        return utils.hasattrdeep(self.__status, ["downloadPaper", "status"]) and self.__status["downloadPaper"]["status"] == "downloaded"
+    def isPDFFetched(self):
+        return utils.hasattrdeep(self.__status, ["getPaperPDF", "status"]) and self.__status["getPaperPDF"]["status"] == "fetched"
     
     def isPaperConverted(self):
-        return utils.hasattrdeep(self.__status, ["convertPDF", "status"]) and self.__status["convertPDF"]["status"] == "converted"    
-            
-    def areSectionsFetched(self):
-        return utils.hasattrdeep(self.__status, ["getSectionsJSON", "status"]) and self.__status["getSectionsJSON"]["status"] == "fetched"
+        return utils.hasattrdeep(self.__status, ["getPlaintext", "status"]) and self.__status["getPlaintext"]["status"] == "converted"    
     
-    def getSectionsFilePath(self):
-        if not utils.hasattrdeep(self.__status, ["getSectionsJSON", "filename"]):
-            raise KeyError("No PDF name found.")
+    def getPlaintextFilePath(self):
+        if not utils.hasattrdeep(self.__status, ["getPlaintext", "filename"]):
+            raise KeyError("No Plaintext filename found.")
         
-        return os.path.join(ConfigHandler().getSectionsFolderPath(), self.__status['getSectionsJSON']['filename'])
+        return os.path.join(ConfigHandler().getPlaintextFolderPath(), self.__status['getPlaintext']['filename'])
+            
+    def isJSONFetched(self):
+        return utils.hasattrdeep(self.__status, ["getPaperJSON", "status"]) and self.__status["getPaperJSON"]["status"] == "fetched"
+    
+    def getJSONFilePath(self):
+        if not utils.hasattrdeep(self.__status, ["getPaperJSON", "filename"]):
+            raise KeyError("No JSON filename found.")
+        
+        return os.path.join(ConfigHandler().getJSONFolderPath(), self.__status['getPaperJSON']['filename'])
+    

@@ -1,8 +1,11 @@
 {
     "paths": {
         "status": "./caches/status",
-        "pdf": "./caches/pdf",
-        "plaintext": "./caches/plaintext",
-        "sections": "./caches/sections"
+        "pdf": "./caches/articles/pdf",
+        "plaintext": "./caches/articles/plaintext",
+        "sections": "./caches/articles/json"
+    },
+    "getTextFromJSON": {
+        "sections": ["abstract", "title", "intro", "results", "discussion", "methods"]
     }
 }

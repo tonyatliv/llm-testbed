@@ -1,12 +1,14 @@
 import sys
 import requests
 import metapub
-from handlers import StatusHandler
+from handlers import StatusHandler, ConfigHandler
+import os
 
-def downloadPaper(pmid):
+def getPaperPDF(pmid):
     status = StatusHandler(pmid)
+    config = ConfigHandler()
     
-    if status.isPaperDownloaded():
+    if status.isPDFFetched():
         raise ValueError("Paper already downloaded")
     
     pdfURL = metapub.FindIt(pmid).url
@@ -17,21 +19,23 @@ def downloadPaper(pmid):
     if res.status_code != 200:
         print(res.reason)
         raise requests.exceptions.RequestException("Failed to fetch PDF")
+    
+    pdfFileName= f"{pmid}.pdf"
+    pdfFilePath = os.path.join(config.getPDFsFolderPath(), pdfFileName)
+    
+    with open(pdfFilePath, "wb") as pdfFile:
+        pdfFile.write(res.content)
         
     statusData = status.get()
-    statusData["downloadPaper"] = {
-        "status": "downloaded",
-        "filename": f"{pmid}.pdf"
+    statusData["getPaperPDF"] = {
+        "status": "fetched",
+        "sourceURL": pdfURL,
+        "filename": pdfFileName
     }
     
     status.update(statusData)
-    
-    pdfPath = status.getPDFPath()
-    
-    with open(pdfPath, "wb") as pdfFile:
-        pdfFile.write(res.content)
         
-    return pdfPath
+    return pdfFilePath
     
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -41,7 +45,7 @@ if __name__ == "__main__":
     pmid = sys.argv[1]
     
     try:
-        path = downloadPaper(pmid)
-        print(f"Paper with PMID {pmid} downloaded to {path}")
+        path = getPaperPDF(pmid)
+        print(f"PDF of paper with PMID {pmid} downloaded to {path}")
     except Exception as err:
-        print(f"Error downloading paper: {err}")
+        print(f"Error downloading paper as PDF: {err}")

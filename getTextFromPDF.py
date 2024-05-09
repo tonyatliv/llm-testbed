@@ -3,17 +3,19 @@ import os
 from handlers import ConfigHandler, StatusHandler
 from pdfminer.high_level import extract_text
 
-def convertPDF(id):
+def getTextFromPDF(pmid):
     config = ConfigHandler()
-    status = StatusHandler(id)
+    status = StatusHandler(pmid)
     
-    if not status.isPaperDownloaded():
-        raise ValueError("Paper with provided ID has not been downloaded")
+    if not status.isPDFFetched():
+        raise ValueError("Paper with provided ID has not been fetched yet")
     
     if status.isPaperConverted():
-        raise ValueError("PDF has already been converted to plaintext")
+        raise ValueError("Text file has already been generated")
 
-    plaintextFilePath = os.path.join(config.getPlaintextFolderPath(), f"{id}.txt")
+    plaintextFileName = f"{pmid}.txt"
+    plaintextFilePath = os.path.join(config.getPlaintextFolderPath(), plaintextFileName)
+    
     if os.path.isfile(plaintextFilePath):
         raise FileExistsError("Plaintext file for this document already exists")
     
@@ -24,9 +26,10 @@ def convertPDF(id):
         plaintextFile.write(plaintext)
             
     statusData = status.get()
-    statusData["convertPDF"] = {
+    statusData["getPlaintext"] = {
         "status": "converted",
-        "filename": f"{id}.txt"
+        "sourceFileType": "pdf",
+        "filename": plaintextFileName
     }
     
     status.update(statusData)
@@ -39,10 +42,10 @@ if __name__ == "__main__":
         print("Usage: python convertPDF.py <paper_id>")
         sys.exit(1)
         
-    id = sys.argv[1]
+    pmid = sys.argv[1]
     
     try:
-        path = convertPDF(id)
-        print(f"PDF with PMID {id} converted to plaintext and saved to {path}")
+        path = getTextFromPDF(pmid)
+        print(f"PDF with PMID {pmid} converted to plaintext and saved as {path}")
     except Exception as err:
         print(f"Error converting PDF to plaintext: {err}")
