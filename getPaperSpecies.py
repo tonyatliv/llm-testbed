@@ -15,7 +15,7 @@ def getPaperSpecies(pmid):
     
     message = client.messages.create(
         max_tokens=1024,
-        system="The user will input a series of extracts from a PubMed publication. Respond with only the species that the publication concerns.",
+        system="The user will input a series of extracts from a PubMed publication. Respond with only the species that the publication concerns. The ONLY text in your response MUST be the species name in full and NOTHING else.",
         messages=[
             {
                 "role": "user",
