@@ -38,4 +38,4 @@ if __name__ == "__main__":
         species = getPaperSpecies(pmid)
         print(f"Species for paper with PMID {pmid} is: {species}")
     except Exception as err:
-        print(f"Error merging sections: {err}")
+        print(f"Error getting species from paper: {err}")
