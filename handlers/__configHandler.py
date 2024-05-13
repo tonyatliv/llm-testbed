@@ -28,3 +28,9 @@ class ConfigHandler:
     
     def getMergeSectionsSections(self):
         return self.__config["getTextFromJSON"]["sections"]
+    
+    def getSystemPromptForGetPaperSpecies(self):
+        return self.__config["getPaperSpecies"]["systemPrompt"]
+    
+    def getResponseSchemaForGetPaperSepcies(self):
+        return self.__config["getPaperSpecies"]["responseSchema"]
