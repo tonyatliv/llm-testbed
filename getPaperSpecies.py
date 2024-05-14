@@ -3,6 +3,7 @@ from handlers import StatusHandler, ConfigHandler
 from anthropic import Anthropic
 import jsonschema
 import json
+from llms import ClaudeInstance
 
 def getPaperSpecies(pmid):
     status = StatusHandler(pmid)
@@ -17,28 +18,13 @@ def getPaperSpecies(pmid):
         promptText = plaintextFile.read()
         
     systemPrompt = config.getSystemPromptForGetPaperSpecies()
-    answerStart = "{"
     
-    message = client.messages.create(
-        max_tokens=1024,
-        system=systemPrompt,
-        messages=[
-            {
-                "role": "user",
-                "content": promptText
-            },
-            {
-                "role": "assistant",
-                "content": answerStart
-            }
-        ],
-        model="claude-3-haiku-20240307",
-    )
-    
-    answerString = answerStart + message.content[0].text
+    claude = ClaudeInstance(systemPrompt=systemPrompt)
+
+    response = claude.askWithRetry(promptText, answerStart="{}")
     
     try:
-        fullAnswer = json.loads(answerString)
+        fullAnswer = json.loads(response)
         schema = config.getResponseSchemaForGetPaperSepcies()
         jsonschema.validate(fullAnswer, schema=schema)
     except Exception as err:
@@ -62,8 +48,8 @@ if __name__ == "__main__":
         
     pmid = sys.argv[1]
     
-    try:
-        species = getPaperSpecies(pmid)
-        print(f"Species for paper with PMID {pmid} is: {species}")
-    except Exception as err:
-        print(f"Error getting species from paper: {err}")
+    # try:
+    species = getPaperSpecies(pmid)
+    print(f"Species for paper with PMID {pmid} is: {species}")
+    # except Exception as err:
+    #     print(f"Error getting species from paper: {err}")
