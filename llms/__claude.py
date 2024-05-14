@@ -27,9 +27,8 @@ class ClaudeInstance(LLMInstance):
     def setMessageHistory(self, newMessageHistory: List[ClaudeMessage]):
         return super().setMessageHistory(newMessageHistory)
         
-    def ask(self, messageContent: str, answerStart="", messageHistory: List[ClaudeMessage]=None, maxTokens=None):
-        if messageHistory is None:
-            messageHistory = self.getMessageHistory()
+    def ask(self, messageContent: str, answerStart="", maxTokens=None):
+        messageHistory = self.getMessageHistory()
             
         if maxTokens is None:
             maxTokens = self.__maxTokens

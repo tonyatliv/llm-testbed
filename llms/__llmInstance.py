@@ -16,7 +16,7 @@ class LLMInstance:
     def ask():
         raise Exception("Cannot use class LLMInstance on its own. Model-specific classes like ClaudeInstance should be used instead.")
     
-    def askWithRetry(self, messageContent: str, retryExceptions: List[Exception]):
+    def askWithRetry(self, messageContent: str, retryExceptions: List[Exception]=[]):
         retryIntervals = [2**i for i in range(0,5)]
         
         for interval in retryIntervals:
