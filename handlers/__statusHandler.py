@@ -2,6 +2,7 @@ import os
 import json
 import utils
 from . import ConfigHandler
+from typing import List
 
 class StatusHandler:
     __status = {}
@@ -21,6 +22,22 @@ class StatusHandler:
     
     def update(self, newStatus):
         self.__status = newStatus
+        self.__saveStatus()
+        
+    def updateField(self, field: str | List[str], value):
+        def traverseDictAndUpdateField(fieldPath, newValue, dict):
+            if len(fieldPath) == 1:
+                dict[fieldPath[0]] = newValue
+                return dict
+            field = fieldPath.pop(0)
+            if field not in dict:
+                dict[field] = {}
+            if not type(dict[field]) == dict:
+                raise TypeError(f"Field '{field}' cannot be updated as it is not a dict")
+            dict[field] = traverseDictAndUpdateField(fieldPath, newValue, dict[field])
+            return dict
+        
+        self.__status[field] = value if type(field) == str else traverseDictAndUpdateField(field, value, self.__status)
         self.__saveStatus()
             
     def __saveStatus(self):
