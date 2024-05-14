@@ -66,5 +66,5 @@ class ClaudeInstance(LLMInstance):
         
         return answerText
     
-    def askWithRetry(self, messageContent: str):
-        return super().askWithRetry(messageContent, self.__RETRYEXCEPTIONS)
+    def askWithRetry(self, messageContent: str, answerStart: str=""):
+        return super().askWithRetry(messageContent, self.__RETRYEXCEPTIONS, answerStart=answerStart)
