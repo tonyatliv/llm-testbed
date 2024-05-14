@@ -26,14 +26,11 @@ def getPaperPDF(pmid):
     with open(pdfFilePath, "wb") as pdfFile:
         pdfFile.write(res.content)
         
-    statusData = status.get()
-    statusData["getPaperPDF"] = {
+    status.updateField("getPaperPDF", {
         "status": "fetched",
         "sourceURL": pdfURL,
         "filename": pdfFileName
-    }
-    
-    status.update(statusData)
+    })
         
     return pdfFilePath
     

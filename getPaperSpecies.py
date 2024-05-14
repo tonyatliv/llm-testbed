@@ -35,7 +35,6 @@ def getPaperSpecies(pmid):
         model="claude-3-haiku-20240307",
     )
     
-    statusData = status.get()
     answerString = answerStart + message.content[0].text
     
     try:
@@ -43,18 +42,16 @@ def getPaperSpecies(pmid):
         schema = config.getResponseSchemaForGetPaperSepcies()
         jsonschema.validate(fullAnswer, schema=schema)
     except Exception as err:
-        statusData["getPaperSpecies"] = {
+        status.updateField("getPaperSpecies", {
             "success": False,
             "error": f"{err}"
-        }
-        status.update(statusData)
+        })
         raise Exception(err)
     
-    statusData["getPaperSpecies"] = {
+    status.updateField("getPaperSpeices", {
         "success": True,
         "response": fullAnswer
-    }
-    status.update(statusData)
+    })
     
     return fullAnswer
     

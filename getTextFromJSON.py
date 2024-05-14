@@ -37,14 +37,12 @@ def mergeSections(pmid):
     with open(plaintextFilePath, "w") as plaintextFile:
         for section in sections.values():
             plaintextFile.write(f"{section}\n")
-            
-    statusData = status.get()
-    statusData["getPlaintext"] = {
+    
+    status.updateField("getPlaintext", {
         "status": "converted",
         "sourceFileType": "json",
         "filename": plaintextFileName
-    }
-    status.update(statusData)
+    })
     
     return plaintextFilePath
 

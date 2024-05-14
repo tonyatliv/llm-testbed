@@ -24,14 +24,12 @@ def getPaperJSON(pmid: str):
     
     with open(jsonFilePath, "w") as sectionsFile:
         json.dump(articleJSON, sectionsFile, indent=4)
-    
-    statusData = status.get()
-    statusData["getPaperJSON"] = {
+        
+    status.updateField("getPaperJSON", {
         "status": "fetched",
         "sourceURL": url,
         "filename": jsonFileName
-    }
-    status.update(statusData)
+    })
     
     return jsonFilePath
     

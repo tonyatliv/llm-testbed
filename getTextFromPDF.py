@@ -25,18 +25,14 @@ def getTextFromPDF(pmid):
     with open(plaintextFilePath, "w") as plaintextFile:
         plaintextFile.write(plaintext)
             
-    statusData = status.get()
-    statusData["getPlaintext"] = {
+    status.updateField("getPlaintext", {
         "status": "converted",
         "sourceFileType": "pdf",
         "filename": plaintextFileName
-    }
-    
-    status.update(statusData)
+    })
     
     return plaintextFilePath
     
-
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python convertPDF.py <paper_id>")
