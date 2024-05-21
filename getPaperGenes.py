@@ -4,6 +4,8 @@ import jsonschema
 import json
 from llms import ClaudeInstance
 
+# TODO: Make get paper genes (currently is just copy paste of getPaperSpecies)
+
 def getPaperSpecies(pmid):
     status = StatusHandler(pmid)
     config = ConfigHandler()
