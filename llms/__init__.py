@@ -1,1 +1,1 @@
-from .__claude import ClaudeInstance, ClaudeMessage
+from .claude import ClaudeInstance, ClaudeMessage

@@ -26,7 +26,7 @@ def getPaperJSON(pmid: str):
         json.dump(articleJSON, sectionsFile, indent=4)
         
     status.updateField("getPaperJSON", {
-        "status": "fetched",
+        "success": True,
         "sourceURL": url,
         "filename": jsonFileName
     })

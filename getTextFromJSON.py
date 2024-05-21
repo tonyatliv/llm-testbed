@@ -39,7 +39,7 @@ def mergeSections(pmid):
             plaintextFile.write(f"{section}\n")
     
     status.updateField("getPlaintext", {
-        "status": "converted",
+        "success": True,
         "sourceFileType": "json",
         "filename": plaintextFileName
     })

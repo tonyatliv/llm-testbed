@@ -25,7 +25,6 @@ class StatusHandler:
         self.__saveStatus()
         
     def updateField(self, field: str | List[str], value):
-        
         self.__status[field] = value if type(field) == str else utils.traverseDictAndUpdateField(field, value, self.__status)
         self.__saveStatus()
             
@@ -46,10 +45,10 @@ class StatusHandler:
         return os.path.join(ConfigHandler().getPDFsFolderPath(), self.__status['getPaperPDF']['filename'])
     
     def isPDFFetched(self):
-        return utils.hasattrdeep(self.__status, ["getPaperPDF", "status"]) and self.__status["getPaperPDF"]["status"] == "fetched"
+        return utils.hasattrdeep(self.__status, ["getPaperPDF", "success"]) and self.__status["getPaperPDF"]["success"] == True
     
     def isPaperConverted(self):
-        return utils.hasattrdeep(self.__status, ["getPlaintext", "status"]) and self.__status["getPlaintext"]["status"] == "converted"    
+        return utils.hasattrdeep(self.__status, ["getPlaintext", "success"]) and self.__status["getPlaintext"]["success"] == True
     
     def getPlaintextFilePath(self):
         if not utils.hasattrdeep(self.__status, ["getPlaintext", "filename"]):
@@ -58,7 +57,7 @@ class StatusHandler:
         return os.path.join(ConfigHandler().getPlaintextFolderPath(), self.__status['getPlaintext']['filename'])
             
     def isJSONFetched(self):
-        return utils.hasattrdeep(self.__status, ["getPaperJSON", "status"]) and self.__status["getPaperJSON"]["status"] == "fetched"
+        return utils.hasattrdeep(self.__status, ["getPaperJSON", "status"]) and self.__status["getPaperJSON"]["success"] == True
     
     def getJSONFilePath(self):
         if not utils.hasattrdeep(self.__status, ["getPaperJSON", "filename"]):
@@ -66,3 +65,5 @@ class StatusHandler:
         
         return os.path.join(ConfigHandler().getJSONFolderPath(), self.__status['getPaperJSON']['filename'])
     
+    def areSpeciesFeteched(self):
+        return utils.hasattrdeep(self.__status, ["getPaperSpecies", "success"]) and self.__status["getPaperSpecies"]["success"] == True

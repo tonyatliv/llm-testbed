@@ -19,7 +19,7 @@ def getPaperSpecies(pmid):
     
     claude = ClaudeInstance(systemPrompt=systemPrompt)
 
-    response = claude.askWithRetry(promptText, answerStart="{")
+    response = claude.askWithRetry(promptText, answerStart="{}")
     
     try:
         fullAnswer = json.loads(response)
@@ -34,8 +34,7 @@ def getPaperSpecies(pmid):
     
     status.updateField("getPaperSpeices", {
         "success": True,
-        "response": fullAnswer,
-        "messageHistory": claude.getMessageHistory()
+        "response": fullAnswer
     })
     
     return fullAnswer

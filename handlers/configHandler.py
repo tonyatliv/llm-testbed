@@ -17,6 +17,7 @@ class ConfigHandler:
     def getStatusFolderPath(self):
         return self.__config["paths"]["status"]
     
+    
     def getPDFsFolderPath(self):
         return self.__config["paths"]["pdf"]
     
@@ -29,8 +30,16 @@ class ConfigHandler:
     def getMergeSectionsSections(self):
         return self.__config["getTextFromJSON"]["sections"]
     
+    # Get Paper Species
     def getSystemPromptForGetPaperSpecies(self):
         return self.__config["getPaperSpecies"]["systemPrompt"]
     
     def getResponseSchemaForGetPaperSepcies(self):
         return self.__config["getPaperSpecies"]["responseSchema"]
+    
+    # Get Paper Genes
+    def getSystemPromptForGetPaperGenes(self):
+        return self.__config["getPaperGenes"]["systemPrompt"]
+    
+    def getResponseSchemaForGetPaperGenes(self):
+        return self.__config["getPaperGenes"]["responseSchema"]

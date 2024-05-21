@@ -26,7 +26,7 @@ def getTextFromPDF(pmid):
         plaintextFile.write(plaintext)
             
     status.updateField("getPlaintext", {
-        "status": "converted",
+        "success": True,
         "sourceFileType": "pdf",
         "filename": plaintextFileName
     })

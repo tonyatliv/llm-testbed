@@ -27,7 +27,7 @@ def getPaperPDF(pmid):
         pdfFile.write(res.content)
         
     status.updateField("getPaperPDF", {
-        "status": "fetched",
+        "success": True,
         "sourceURL": pdfURL,
         "filename": pdfFileName
     })
