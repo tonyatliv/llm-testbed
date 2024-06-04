@@ -2,7 +2,7 @@ import sys
 from utils.handlers import StatusHandler, ConfigHandler
 import jsonschema
 import json
-from llms import ClaudeInstance
+from llms import LLMHandler
 
 def getPaperSpecies(pmid):
     status = StatusHandler(pmid)
@@ -17,9 +17,9 @@ def getPaperSpecies(pmid):
         
     systemPrompt = config.getSystemPromptForGetPaperSpecies()
     
-    claude = ClaudeInstance(systemPrompt=systemPrompt)
+    model = LLMHandler(systemPrompt=systemPrompt)
 
-    response = claude.askWithRetry(promptText, answerStart="{")
+    response = model.askWithRetry(promptText, textToComplete="{")
     
     try:
         fullAnswer = json.loads(response)
@@ -35,7 +35,7 @@ def getPaperSpecies(pmid):
     status.updateField("getPaperSpeices", {
         "success": True,
         "response": fullAnswer,
-        "messageHistory": claude.getMessageHistory()
+        "messageHistory": model.getMessageHistory()
     })
     
     return fullAnswer
