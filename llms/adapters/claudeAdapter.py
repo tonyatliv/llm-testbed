@@ -37,7 +37,7 @@ class ClaudeAdapter(LLMInterface):
             ]
         )
         
-        answer = res.content[0].text
+        answer = textToComplete + res.content[0].text
         
         self.setMessageHistory(messageHistory + [
             {
