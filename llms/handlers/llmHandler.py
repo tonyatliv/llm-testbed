@@ -12,3 +12,6 @@ class LLMHandler:
     
     def askWithRetry(self, message: str, textToComplete: str="") -> str:
         return self.llm.askWithRetry(message, textToComplete)
+    
+    def getMessageHistory(self):
+        return self.llm.getMessageHistory()
