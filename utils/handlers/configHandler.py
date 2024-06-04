@@ -17,6 +17,11 @@ class ConfigHandler:
     def getStatusFolderPath(self):
         return self.__config["paths"]["status"]
     
+    def getLLMType(self):
+        return self.__config["llm"]["current"]["type"]
+    
+    def getLLM(self):
+        return self.__config["llm"]["current"]["model"]
     
     def getPDFsFolderPath(self):
         return self.__config["paths"]["pdf"]

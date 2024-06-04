@@ -1,8 +1,9 @@
 import sys
 import requests
 import metapub
-from handlers import StatusHandler, ConfigHandler
+from utils.handlers import StatusHandler, ConfigHandler
 import os
+from llms import LLMInstance
 
 def getPaperPDF(pmid):
     status = StatusHandler(pmid)

@@ -1,6 +1,6 @@
 import sys
 import os
-from handlers import ConfigHandler, StatusHandler
+from utils.handlers import ConfigHandler, StatusHandler
 from pdfminer.high_level import extract_text
 
 def getTextFromPDF(pmid):

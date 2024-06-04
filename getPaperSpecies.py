@@ -1,5 +1,5 @@
 import sys
-from handlers import StatusHandler, ConfigHandler
+from utils.handlers import StatusHandler, ConfigHandler
 import jsonschema
 import json
 from llms import ClaudeInstance

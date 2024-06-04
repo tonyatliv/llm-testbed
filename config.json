@@ -1,4 +1,10 @@
 {
+    "llm": {
+        "current": {
+            "type": "claude",
+            "model": "claude-3-haiku-20240307"
+        }
+    },
     "paths": {
         "status": "./caches/status",
         "pdf": "./caches/articles/pdf",

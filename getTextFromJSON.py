@@ -1,5 +1,5 @@
 import sys
-from handlers import StatusHandler, ConfigHandler
+from utils.handlers import StatusHandler, ConfigHandler
 import json
 import os
 
