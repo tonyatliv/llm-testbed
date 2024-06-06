@@ -35,7 +35,7 @@ def getPaperSpecies(pmid):
         })
         raise Exception(err)
     
-    status.updateField("getPaperSpeices", {
+    status.updateField("getPaperSpecies", {
         "success": True,
         "response": fullAnswer,
         "messageHistory": model.getMessageHistory()
