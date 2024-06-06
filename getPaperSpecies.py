@@ -11,7 +11,7 @@ def getPaperSpecies(pmid):
     if not status.isPaperConverted():
         return ValueError("Paper has not yet been converted to plaintext")
     
-    if status.areSpeciesFeteched():
+    if status.areSpeciesFetched():
         return ValueError("Species have alreade been fetched for this paper")
     
     plaintextFilePath = status.getPlaintextFilePath()
