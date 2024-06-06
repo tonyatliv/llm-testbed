@@ -23,7 +23,7 @@ class ClaudeAdapter(LLMInterface):
         
         res = client.messages.create(
             model=self.model,
-            max_tokens=1024,
+            max_tokens=4096,
             system=self.systemPrompt,
             messages=messageHistory + [
                 {

@@ -2,54 +2,59 @@ import sys
 from utils.handlers import StatusHandler, ConfigHandler
 import jsonschema
 import json
-from llms import ClaudeInstance
+from llms import LLMHandler
 
-# TODO: Make get paper genes (currently is just copy paste of getPaperSpecies)
-
-def getPaperSpecies(pmid):
+def getPaperGenes(pmid):
     status = StatusHandler(pmid)
     config = ConfigHandler()
     
-    if not status.isPaperConverted():
-        return ValueError("Paper has not yet been converted to plaintext")
+    if not status.areSpeciesFetched():
+        return ValueError("Species have not yet been fetched for this paper")
+    
+    if status.areGenesFetched():
+        return ValueError("Genes have already been fetched for this paper")
+    
+    speciesData = status.getSpeciesData()
     
     plaintextFilePath = status.getPlaintextFilePath()
     with open(plaintextFilePath) as plaintextFile:
         promptText = plaintextFile.read()
         
-    systemPrompt = config.getSystemPromptForGetPaperSpecies()
+    systemPrompt = config.getSystemPromptForGetPaperGenes() + json.dumps(speciesData)
     
-    claude = ClaudeInstance(systemPrompt=systemPrompt)
+    model = LLMHandler(systemPrompt=systemPrompt)
 
-    response = claude.askWithRetry(promptText, answerStart="{}")
+    response = model.askWithRetry(promptText, textToComplete="{")
     
     try:
         fullAnswer = json.loads(response)
-        schema = config.getResponseSchemaForGetPaperSepcies()
+        print(fullAnswer)
+        schema = config.getResponseSchemaForGetPaperGenes()
         jsonschema.validate(fullAnswer, schema=schema)
     except Exception as err:
-        status.updateField("getPaperSpecies", {
+        status.updateField("getPaperGenes", {
             "success": False,
             "error": f"{err}"
         })
         raise Exception(err)
     
-    status.updateField("getPaperSpeices", {
+    status.updateField("getPaperGenes", {
         "success": True,
-        "response": fullAnswer
+        "response": fullAnswer,
+        "messageHistory": model.getMessageHistory()
     })
     
     return fullAnswer
     
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python getPaperSpecies.py <pmid>")
+        print("Usage: python getPaperGenes.py <pmid>")
         sys.exit(1)
         
     pmid = sys.argv[1]
     
-    # try:
-    species = getPaperSpecies(pmid)
-    print(f"Species for paper with PMID {pmid} is: {species}")
-    # except Exception as err:
-    #     print(f"Error getting species from paper: {err}")
+    try:
+        genes = getPaperGenes(pmid)
+        print(f"Genes for species of paper with PMID {pmid} are: {genes}")
+    except Exception as err:
+        print(f"Error getting species from paper: {err}")

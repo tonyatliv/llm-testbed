@@ -27,6 +27,41 @@
                     },
                     "minItems": 1
                 }
+            }
+        }
+    },
+    "getPaperGenes": {
+        "systemPrompt": "The user will input a series of extracts from a PubMed publication. You are to respond only with the genes associated with the species of the paper. Respond in JSON, using the following schema: {\"species\": [{\"name\": \"1st species name\", \"genes\": [{\"identifier\": \"identifier of gene 1 for 1st species\", \"name\": \"name of gene 1 for 1st species\"}, {\"identifier\": \"identifier of gene 2 for 1st species\", \"name\": \"name of gene 2 for 1st species\"}, \"etc\"]}]}, etc. This must be parsable, so do NOT include \\n or anything similar which will make the validation fail for the JSON schema. You must respond with NO text other than the raw JSON, in compressed format (i.e. no indentation, new lines) to limit the amount of characters that must be stored. You must account for ALL the genes in the paper, and each species object should contain ALL the genes associated with in in the paper. Here are the species: ",
+        "responseSchema": {
+            "type": "object",
+            "properties": {
+                "species": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "genes": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "identifier": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["identifier", "name"]
+                                }
+                            }
+                        },
+                        "required": ["name", "genes"]
+                    }
+                }
             },
             "required": ["species"]
         }

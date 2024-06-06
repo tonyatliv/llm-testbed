@@ -67,3 +67,12 @@ class StatusHandler:
     
     def areSpeciesFetched(self):
         return helpers.hasattrdeep(self.__status, ["getPaperSpecies", "success"]) and self.__status["getPaperSpecies"]["success"] == True
+    
+    def getSpeciesData(self):
+        if not self.areSpeciesFetched():
+            raise ValueError("Species are not yet fetched for this paper")
+        
+        return self.__status["getPaperSpecies"]["response"]
+    
+    def areGenesFetched(self):
+        return helpers.hasattrdeep(self.__status, ["getPaperGenes", "success"]) and self.__status["getPaperGenes"]["success"] == True
