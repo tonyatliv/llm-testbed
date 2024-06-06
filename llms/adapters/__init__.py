@@ -1,1 +1,2 @@
-from .claudeAdapter import ClaudeAdapter
+from .anthropic import AnthropicAdapter
+from .openai import OpenAIAdapter

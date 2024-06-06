@@ -1,9 +1,10 @@
 from ..interfaces import LLMInterface
 from anthropic import Anthropic, APIConnectionError, RateLimitError, APITimeoutError
+from openai import OpenAI
 from typing import List
 from utils.models import Message
 
-class ClaudeAdapter(LLMInterface):
+class OpenAIAdapter(LLMInterface):
     
     def __init__(self, model: str, systemPrompt: str, messageHistory: List[Message]):
         if not self.__validateMessageHistory(messageHistory):
@@ -17,27 +18,31 @@ class ClaudeAdapter(LLMInterface):
         )
     
     def ask(self, message: str, textToComplete: str) -> str:
-        client = Anthropic()
+        client = OpenAI()
         
         messageHistory = self.getMessageHistory()
         
-        res = client.messages.create(
+        res = client.chat.completions.create(
             model=self.model,
             max_tokens=4096,
-            system=self.systemPrompt,
-            messages=messageHistory + [
+            messages=[
+                {
+                    "role": "system",
+                    "content": self.systemPrompt
+                }
+            ] + messageHistory + [
                 {
                     "role": "user",
-                    "content": message
+                    "content": f"{message}\n\n**Your response MUST start with AND complete the following text: {textToComplete}"
                 },
-                {
-                    "role": "assistant",
-                    "content": textToComplete
-                }
+                # {
+                #     "role": "assistant",
+                #     "content": textToComplete
+                # }
             ]
         )
         
-        answer = textToComplete + res.content[0].text
+        answer = res.choices[0].message.content
         
         self.setMessageHistory(messageHistory + [
             {

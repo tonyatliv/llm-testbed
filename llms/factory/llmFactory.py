@@ -1,5 +1,5 @@
 from utils.handlers import ConfigHandler
-from ..adapters import ClaudeAdapter
+from ..adapters import *
 from typing import List
 from utils.models import Message
 
@@ -12,7 +12,9 @@ class LLMFactory:
         model = config.getLLM()
         
         match modelType:
-            case "claude":
-                return ClaudeAdapter(model, systemPrompt, messageHistory)
+            case "anthropic":
+                return AnthropicAdapter(model, systemPrompt, messageHistory)
+            case "openai":
+                return OpenAIAdapter(model, systemPrompt, messageHistory)
             case _:
                 raise ValueError("LLM type set in confing not foud")

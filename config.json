@@ -1,7 +1,7 @@
 {
     "llm": {
         "current": {
-            "type": "claude",
+            "type": "anthropic",
             "model": "claude-3-haiku-20240307"
         }
     },
