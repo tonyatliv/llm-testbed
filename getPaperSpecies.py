@@ -50,8 +50,8 @@ if __name__ == "__main__":
         
     pmid = sys.argv[1]
     
-    # try:
-    species = getPaperSpecies(pmid)
-    print(f"Species for paper with PMID {pmid} is: {species}")
-    # except Exception as err:
-    #     print(f"Error getting species from paper: {err}")
+    try:
+        species = getPaperSpecies(pmid)
+        print(f"Species for paper with PMID {pmid} is: {species}")
+    except Exception as err:
+        print(f"Error getting species from paper: {err}")
