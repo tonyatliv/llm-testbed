@@ -34,11 +34,7 @@ class OpenAIAdapter(LLMInterface):
                 {
                     "role": "user",
                     "content": f"{message}\n\n**Your response MUST start with AND complete the following text: {textToComplete}"
-                },
-                # {
-                #     "role": "assistant",
-                #     "content": textToComplete
-                # }
+                }
             ]
         )
         
