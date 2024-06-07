@@ -1,5 +1,4 @@
 from ..interfaces import LLMInterface
-from anthropic import Anthropic, APIConnectionError, RateLimitError, APITimeoutError
 from openai import OpenAI
 from typing import List
 from utils.models import Message
@@ -14,7 +13,7 @@ class OpenAIAdapter(LLMInterface):
             model,
             systemPrompt,
             messageHistory,
-            exceptionsForRetry = [APIConnectionError, RateLimitError, APITimeoutError]
+            exceptionsForRetry = []
         )
     
     def ask(self, message: str, textToComplete: str) -> str:
