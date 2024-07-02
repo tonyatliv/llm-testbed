@@ -32,7 +32,6 @@ def getPaperGOTerms(pmid: str):
             message=json.dumps(pair),
             textToComplete="["
         )
-        print(res)
         
         try:
             pairGOTermsData = json.loads(res)
