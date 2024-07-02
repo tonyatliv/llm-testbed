@@ -48,3 +48,17 @@ class ConfigHandler:
     
     def getResponseSchemaForGetPaperGenes(self):
         return self.__config["getPaperGenes"]["responseSchema"]
+    
+    # Get Paper GO Terms
+    def getSystemPromptStartForGetPaperGOTerms(self):
+        return self.__config["getPaperGOTerms"]["systemPromptStart"]
+    
+    def getResponseSchemaForGetPaperGOTerms(self):
+        return self.__config["getPaperGOTerms"]["responseSchema"]
+    
+    # Validate GO Term Descriptions
+    def getSystemPromptStartForValidateGOTermDescriptions(self):
+        return self.__config["validateGOTermDescriptions"]["systemPrompt"]
+    
+    def getResponseSchemaForValidateGOTermDescriptions(self):
+        return self.__config["validateGOTermDescriptions"]["responseSchema"]

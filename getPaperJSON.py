@@ -35,7 +35,7 @@ def getPaperJSON(pmid: str):
     
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python download_paper.py <pmid>")
+        print("Usage: python getPaperJSON.py <pmid>")
         sys.exit(1)
         
     pmid = sys.argv[1]

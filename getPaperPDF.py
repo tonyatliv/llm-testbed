@@ -3,7 +3,6 @@ import requests
 import metapub
 from utils.handlers import StatusHandler, ConfigHandler
 import os
-from llms import LLMInstance
 
 def getPaperPDF(pmid):
     status = StatusHandler(pmid)
@@ -37,7 +36,7 @@ def getPaperPDF(pmid):
     
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python download_paper.py <pmid>")
+        print("Usage: python getPaperPDF.py <pmid>")
         sys.exit(1)
         
     pmid = sys.argv[1]

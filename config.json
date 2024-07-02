@@ -24,11 +24,11 @@
                     "items": {
                         "type": "string",
                         "minLength": 1
-                    },
-                    "minItems": 1
+                    }
                 }
             },
-            "required": ["species"]
+            "required": ["species"],
+            "additionalProperties": false
         }
     },
     "getPaperGenes": {
@@ -56,15 +56,44 @@
                                             "type": "string"
                                         }
                                     },
-                                    "required": ["identifier", "name"]
+                                    "required": ["identifier", "name"],
+                                    "additionalProperties": false
                                 }
                             }
                         },
-                        "required": ["name", "genes"]
+                        "required": ["name", "genes"],
+                        "additionalProperties": false
                     }
                 }
             },
-            "required": ["species"]
+            "required": ["species"],
+            "additionalProperties": false
+        }
+    },
+    "getPaperGOTerms": {
+        "systemPromptStart": "The user is going to give you a pair of gene and species. Give all Gene Ontology terms associated with this pair in the given publication as a JSON list i.e. [{\"id\": \"GO:4526854138\", \"description\": \"description for first go term\"}, {\"id\": \"GO:3284974\", \"description\": \"description for second go term\"}]. It must follow that schema to pass validation as it will be processed. You must give NO other commentary than the JSON array.\nHere is the publication:\n\n",
+        "responseSchema": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^GO:\\d{7}$"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "required": ["id", "description"],
+                "additionalProperties": false
+            }
+        }
+    },
+    "validateGOTermDescriptions": {
+        "systemPrompt": "You are being used as part of a system to compare assumed Gene Ontology term descriptions to their actual descriptions. You will be asked a simple true or false question along the lines of \"Does 'x' mean the same as 'y'\". You must respond in simple JSON format, following schema {\"result\": true} or {\"result\": false}. You must return NOTHING else than the valid JSON.",
+        "responseSchema": {
+            "type": "boolean"
         }
     }
 }

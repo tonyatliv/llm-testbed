@@ -24,8 +24,8 @@ class StatusHandler:
         self.__status = newStatus
         self.__saveStatus()
         
-    def updateField(self, field: str | List[str], value):
-        self.__status[field] = value if type(field) == str else helpers.traverseDictAndUpdateField(field, value, self.__status)
+    def updateField(self, field: str | List[str], newValue):
+        self.__status[field] = newValue if type(field) == str else helpers.traverseDictAndUpdateField(field, newValue, self.__status)
         self.__saveStatus()
             
     def __saveStatus(self):
@@ -76,3 +76,40 @@ class StatusHandler:
     
     def areGenesFetched(self):
         return helpers.hasattrdeep(self.__status, ["getPaperGenes", "success"]) and self.__status["getPaperGenes"]["success"] == True
+    
+    def getGenesData(self):
+        if not self.areGenesFetched():
+            raise ValueError("Genes are not yet fetched for this paper")
+        
+        return self.__status["getPaperGenes"]
+    
+    def getGeneSpeciesPairs(self):
+        if not self.areGenesFetched():
+            raise ValueError("Genes are not yet fetched for this paper")
+        
+        data = self.__status["getPaperGenes"]["response"]
+        pairs = [{"species": s["name"], "geneID": g["identifier"]} for s in data["species"] for g in s["genes"]]
+        
+        seen = []
+        for i, pair in enumerate(pairs):
+            if pair in seen:
+                pairs.pop(i)
+            else:
+                seen.append(pair)
+        
+        return pairs
+    
+    def areGOTermsFetched(self):
+        return helpers.hasattrdeep(self.__status, ["getPaperGOTerms", "success"]) and self.__status["getPaperGOTerms"]["success"] == True
+    
+    def getFetchedGOTerms(self):
+        if not self.areGOTermsFetched():
+            raise ValueError("Go terms are not yet fetched for this paper")
+        
+        return self.__status["getPaperGOTerms"]["goTerms"]
+    
+    def getGeneSpeciesPairsWithFetchedGOTerms(self):
+        if not self.areGOTermsFetched():
+            raise ValueError("Go terms are not yet fetched for this paper")
+        
+        return self.__status["getPaperGOTerms"]["geneSpeciesPairsWithGOTerms"]

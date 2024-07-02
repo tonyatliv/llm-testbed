@@ -28,7 +28,6 @@ def getPaperGenes(pmid):
     
     try:
         fullAnswer = json.loads(response)
-        print(fullAnswer)
         schema = config.getResponseSchemaForGetPaperGenes()
         jsonschema.validate(fullAnswer, schema=schema)
     except Exception as err:
@@ -55,6 +54,6 @@ if __name__ == "__main__":
     
     try:
         genes = getPaperGenes(pmid)
-        print(f"Genes for species of paper with PMID {pmid} are: {genes}")
+        print(f"Genes for species of paper with PMID {pmid} cached to status file.")
     except Exception as err:
         print(f"Error getting species from paper: {err}")
