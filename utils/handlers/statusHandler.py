@@ -113,3 +113,13 @@ class StatusHandler:
             raise ValueError("Go terms are not yet fetched for this paper")
         
         return self.__status["getPaperGOTerms"]["geneSpeciesPairsWithGOTerms"]
+    
+    def areGOTermDescriptionsValidated(self):
+        return helpers.hasattrdeep(self.__status, ["validateGOTermDescriptions", "success"]) and self.__status["validateGOTermDescriptions"]["success"] == True
+    
+    def getAcceptedGOTerms(self):
+        if not self.areGOTermDescriptionsValidated():
+            raise ValueError("GO term descriptions have not yet been validated for this paper")
+        
+        return self.__status["validateGOTermDescriptions"]["acceptedGOTerms"]
+    
