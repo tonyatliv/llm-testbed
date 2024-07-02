@@ -94,7 +94,7 @@ if __name__ == "__main__":
     
     try:
         data = validateGOTermDescriptions(pmid)
-        print(f"GO term descriptions for paper with PMID {pmid} validated and results saved to status file with [{data['acceptedCount']}] accepted, [{data['rejectionCount']}] rejected, and [{data['apiFailedCount']}] QuickGO API failures")
+        print(f"GO term descriptions for paper with PMID {pmid} validated and results saved to status file with [{data['acceptedCount']}] accepted, [{data['rejectedCount']}] rejected, and [{data['apiFailedCount']}] QuickGO API failures")
         if not data["apiFailedCount"] == 0:
             print("Run the script again to try the api failed terms again.")
     except Exception as err:
