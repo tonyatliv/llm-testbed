@@ -13,17 +13,19 @@ Python 3 interface used to extract data from PubMed publications using LLMs, par
 
 ## Setup
 
-1.  Install package dependencies by running `pip install requirements.txt`
+1.  Create activate and [virtual environment](https://docs.python.org/3/library/venv.html) if your IDE does not do so automatically
 
-2.  Create `.env` file by running `cp .env.example .env`
+2.  Install package dependencies by running `pip install requirements.txt`
+
+3.  Create `.env` file by running `cp .env.example .env`
     <br />_Be careful as this will overwrite your current `.env` file in case you already have one setup_
 
-3.  Add any API keys or other environment variables to `.env` file
+4.  Add any API keys or other environment variables to `.env` file
 
-4.  Create a config file by running `cp config.json.example config.json`
+5.  Create a config file by running `cp config.json.example config.json`
     <br />_Be carefulas this will overwrite your current `config.json` file in case you already have one setup_
 
-5.  Run setup script by running `python setup.py`
+6.  Run setup script by running `python setup.py`
 
 ## Configuration
 
