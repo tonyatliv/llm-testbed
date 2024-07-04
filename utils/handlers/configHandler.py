@@ -1,5 +1,8 @@
 import json 
 import os
+import dotenv
+
+dotenv.load_dotenv()
 
 class ConfigHandler:
     def __init__(self, file=str(os.getenv("LLM_TESTBED_CONFIG_PATH"))):
