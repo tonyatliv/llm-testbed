@@ -43,6 +43,8 @@ In the config file, there is a field called `"llm"`, which looks something like 
       "model": "claude-3-haiku-20240307"
     }
   },
+  "rest of config.json file..."
+}
 ```
 
 -   The `type` parameter tells the `llms` package what model type it is and what code to run for it to work with that model. Here are the currently supported types:
