@@ -12,7 +12,14 @@
         "sections": "./caches/articles/json"
     },
     "getTextFromJSON": {
-        "sections": ["abstract", "title", "intro", "results", "discussion", "methods"]
+        "sections": [
+            "abstract",
+            "title",
+            "intro",
+            "results",
+            "discussion",
+            "methods"
+        ]
     },
     "getPaperSpecies": {
         "systemPrompt": "The user will input a series of extracts from a PubMed publication. Respond with only the species that the publication concerns. Respond in JSON, using the following schema: {\"species\": [\"1st species name\", \"2nd species name\", \"3rd species name, etc\"]} This must be parsable, so do NOT include \\n or anything similar which will make the validation fail for the JSON schema. You must respond with NO text other than the JSON",
@@ -27,7 +34,9 @@
                     }
                 }
             },
-            "required": ["species"],
+            "required": [
+                "species"
+            ],
             "additionalProperties": false
         }
     },
@@ -56,17 +65,25 @@
                                             "type": "string"
                                         }
                                     },
-                                    "required": ["identifier", "name"],
+                                    "required": [
+                                        "identifier",
+                                        "name"
+                                    ],
                                     "additionalProperties": false
                                 }
                             }
                         },
-                        "required": ["name", "genes"],
+                        "required": [
+                            "name",
+                            "genes"
+                        ],
                         "additionalProperties": false
                     }
                 }
             },
-            "required": ["species"],
+            "required": [
+                "species"
+            ],
             "additionalProperties": false
         }
     },
@@ -85,7 +102,10 @@
                         "type": "string"
                     }
                 },
-                "required": ["id", "description"],
+                "required": [
+                    "id",
+                    "description"
+                ],
                 "additionalProperties": false
             }
         }
