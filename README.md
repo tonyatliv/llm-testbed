@@ -13,7 +13,7 @@ Python 3 interface used to extract data from PubMed publications using LLMs, par
 
 ## Setup
 
-1.  Create activate and [virtual environment](https://docs.python.org/3/library/venv.html) if your IDE does not do so automatically
+1.  Create create and activate a [virtual environment](https://docs.python.org/3/library/venv.html) if your IDE does not do so automatically
 
 2.  Install package dependencies by running `pip install requirements.txt`
 
