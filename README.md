@@ -6,7 +6,7 @@ Python 3 interface used to extract data from PubMed publications using LLMs, par
 
 [Setup](#setup)
 <br />
-[Configuration](#changing-llm)
+[Configuration](#configuration)
 <br />
 [Running the workflow](#running-the-workflow)
 <br />
