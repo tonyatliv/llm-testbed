@@ -50,7 +50,7 @@ In the config file, there is a field called `"llm"`, which looks something like 
 -   The `type` parameter tells the `llms` package what model type it is and what code to run for it to work with that model. Here are the currently supported types:
     | Type | Description | Requirements |
     | --- | --- | --- |
-    | `anthropic` | Anthropic's language-based models e.g. https://www.anthropic.com/claude | `$ANTHROPIC_API_KEY` environment variable must be set |
+    | `anthropic` | Anthropic's language-based models e.g. Claude | `$ANTHROPIC_API_KEY` environment variable must be set |
     | `openai` | OpenAI's language-based models e.g. ChatGPT | `$OPENAI_API_KEY` environment variable must be set |
 
 -   The `model` parameter tells the API what specific model to use (if applicable). See documentation for more details.
