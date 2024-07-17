@@ -32,9 +32,9 @@ def validateGOTermDescriptions(pmid: str):
         
         goTermAPIInfo = json.loads(res.text)
             
-        
+        desc: str = ""
         if goTermAPIInfo["results"]:
-            desc: str = goTermAPIInfo["results"][0]["name"]
+            desc = goTermAPIInfo["results"][0]["name"]
         else:
             rejectedGOTerms.append({
                 "id": term["id"],
