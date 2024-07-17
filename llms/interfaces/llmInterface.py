@@ -30,7 +30,7 @@ class LLMInterface(ABC):
                 print(f"API call failed: {err}\nRetrying in {interval} seconds")
                 time.sleep(interval)
                 print("Retrying...")
-                
+
         raise Exception("All attempts failed")
     
     

@@ -16,5 +16,7 @@ class LLMFactory:
                 return AnthropicAdapter(model, systemPrompt, messageHistory)
             case "openai":
                 return OpenAIAdapter(model, systemPrompt, messageHistory)
+            case "local":
+                return localLLMAdapter(model, systemPrompt, messageHistory)
             case _:
-                raise ValueError("LLM type set in confing not foud")
+                raise ValueError("Model type not supported")

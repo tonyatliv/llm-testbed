@@ -3,8 +3,8 @@
 config.json
 
 **/.DS_Store
+.idea/
 
-### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
