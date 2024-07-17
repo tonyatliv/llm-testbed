@@ -32,7 +32,17 @@ def validateGOTermDescriptions(pmid: str):
         
         goTermAPIInfo = json.loads(res.text)
             
-        desc: str = goTermAPIInfo["results"][0]["name"]
+        
+        if goTermAPIInfo["results"]:
+            desc: str = goTermAPIInfo["results"][0]["name"]
+        else:
+            rejectedGOTerms.append({
+                "id": term["id"],
+                "description": term["description"],
+                "actualDescription": "No results found"
+            })
+            continue
+
         if desc.lower() == term["description"].lower():
             acceptedGOTerms.append(term)
             continue
