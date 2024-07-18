@@ -6,7 +6,6 @@ from utils.handlers import StatusHandler
 from GOntoSim import GOntoSim
 from getPaperPDF import getPaperPDF
 from getPaperJSON import getPaperJSON
-from getTextFromPDF import getTextFromPDF
 from getTextFromJSON import mergeSections
 from getPaperSpecies import getPaperSpecies
 from getPaperGenes import getPaperGenes
@@ -104,8 +103,7 @@ if __name__ == "__main__":
 
     validEntries = []
     pmids = []
-    badpmids = ['28944300', '16507167', '32284562', '27128092', '18551176|24043620', '18551176', '24043620', '30102371',
-                '37130129', '37192974', '27602946', '15939796', '24090929', '28806784', '25139348', '30204084']
+    badpmids = ['16507167', '18551176|24043620', '30102371', '37130129', '37192974', '27602946', '24090929', '28806784']
 
     for entry in data:
         pmid = entry.get("PMID")
@@ -160,7 +158,7 @@ if __name__ == "__main__":
 
     try:
         df = pd.DataFrame(summaryTable)
-        output_file = "./table_data.xlsx"
+        output_file = "./result/table_data.xlsx"
         df.to_excel(output_file, index=False)
     except Exception as err:
         print(f"error: {err}")
