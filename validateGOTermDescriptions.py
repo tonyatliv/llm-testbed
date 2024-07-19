@@ -39,7 +39,6 @@ def validateGOTermDescriptions(pmid: str):
             rejectedGOTerms.append({
                 "id": term["id"],
                 "description": term["description"],
-                "actualDescription": "No results found"
             })
             continue
 
