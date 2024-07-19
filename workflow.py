@@ -95,16 +95,12 @@ def getAverageScore(pmid: str, method: str = 'wang', data_file: str = 'test_3d7_
     return sum(scores) / len(scoreTable)
 
 
-if __name__ == "__main__":
-    file_name = 'PFalciparum_3d7_gaf.json'
-
-    with open(file_name, 'r') as file:
+def workflow(dataFile, resultJSON, resultXLSX, pmidNum, modelName):
+    with open(dataFile, 'r') as file:
         data = json.load(file)
-
     validEntries = []
     pmids = []
     badpmids = ['16507167', '18551176|24043620', '30102371', '37130129', '37192974', '27602946', '24090929', '28806784']
-
     for entry in data:
         pmid = entry.get("PMID")
         if pmid in badpmids:
@@ -113,16 +109,13 @@ if __name__ == "__main__":
             if getPaperPlainText(pmid):
                 pmids.append(pmid)
                 validEntries.append(entry)
-                if len(pmids) == 100:
+                if len(pmids) == pmidNum:
                     break
-    print("number of pmids: ", len(pmids))
-    print(pmids)
 
-    new_file_name = 'result/filtered_PMID_data.json'
-    with open(new_file_name, 'w') as new_file:
+    with open(resultJSON, 'w') as new_file:
         json.dump(validEntries, new_file, indent=4)
 
-    summaryTable = {'Model': ['Claude3-haiku'], 'Average Score': [0]}
+    summaryTable = {'Model': [modelName], 'Average Score': [0]}
     for i, pmid in enumerate(pmids, start=1):
         status = StatusHandler(pmid)
         print(f"---------\nStart PMID: {pmid}'s Workflow")
@@ -143,7 +136,7 @@ if __name__ == "__main__":
         averageScore = 0
         try:
             print(f"---------Start PMID: {pmid}'s score calculating---------")
-            averageScore = getAverageScore(pmid, method='wang', data_file=file_name)
+            averageScore = getAverageScore(pmid, method='wang', data_file=dataFile)
             print(f"PMID {pmid}'s average score is {averageScore}")
             print(f"---------End PMID: {pmid}'s score calculating---------")
         except Exception as err:
@@ -158,7 +151,22 @@ if __name__ == "__main__":
 
     try:
         df = pd.DataFrame(summaryTable)
-        output_file = "./result/table_data.xlsx"
-        df.to_excel(output_file, index=False)
+        df.to_excel(resultXLSX, index=False)
+    except Exception as err:
+        print(f"error: {err}")
+
+
+if __name__ == "__main__":
+    # original data file name
+    fileName = 'PFalciparum_3d7_gaf.json'
+    # processed data from original
+    resultJSON = 'result/filtered_PMID_data.json'
+    # result file
+    resultXLSX = "./result/table_data.xlsx"
+    # test model name
+    modelName = 'Claude3-haiku'
+
+    try:
+        workflow(fileName, resultJSON, resultXLSX, 100, modelName)
     except Exception as err:
         print(f"error: {err}")

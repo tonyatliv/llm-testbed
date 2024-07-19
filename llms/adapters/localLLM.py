@@ -1,3 +1,4 @@
+import re
 from ..interfaces import LLMInterface
 from typing import List
 from transformers import pipeline
@@ -26,9 +27,17 @@ class localLLMAdapter(LLMInterface):
             {"role": "assistant", "content": textToComplete}
         ]
         
-        assistantResponse = pipe(messages=messages)
-        
-        answer = textToComplete + assistantResponse[0]["generated_text"][3]["content"]
+        assistantResponse = pipe(text_inputs=messages, max_new_tokens=8096)
+        print(assistantResponse)
+
+        answer = assistantResponse[0]["generated_text"][3]["content"]
+        pattern = r"```(.*?)```"
+        match = re.search(pattern, answer, re.DOTALL)
+        if match:
+            answer = match.group(1)
+            print(answer)
+        else:
+            print("No JSON found in the text.")
 
         self.setMessageHistory(messageHistory + [
             {
