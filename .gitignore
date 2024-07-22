@@ -72,7 +72,6 @@ db.sqlite3-journal
 instance/
 .webassets-cache
 
-# go-basic.obo
 go-basic.obo
 
 # Scrapy stuff:

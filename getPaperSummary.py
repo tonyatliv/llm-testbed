@@ -5,7 +5,6 @@ from llms import LLMHandler
 from nltk.tokenize import word_tokenize
 from utils.handlers import StatusHandler, ConfigHandler
 
-nltk.download('punkt')
 
 def getChunk(words, page):
     overlap = 200
@@ -29,11 +28,6 @@ def getChunk(words, page):
     return chunk_text
 
 
-def getWords(text):
-    words = word_tokenize(text)
-    return words
-
-
 def getPaperSummary(pmid):
     status = StatusHandler(pmid)
     config = ConfigHandler()
@@ -49,7 +43,7 @@ def getPaperSummary(pmid):
 
     systemPrompt = config.getSystemPromptForPaperSummary()
 
-    words = getWords(plainText)
+    words = word_tokenize(plainText)
     chunkText = " "
     page = 0
     summary = []
@@ -75,12 +69,14 @@ def getPaperSummary(pmid):
     })
     return summaryFilePath
 
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python getPaperSummary.py <pmid>")
         sys.exit(1)
 
     pmid = sys.argv[1]
+    nltk.download('punkt')
 
     try:
         summaryPath = getPaperSummary(pmid)
