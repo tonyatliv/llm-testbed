@@ -1,3 +1,4 @@
+import re
 import sys
 from utils.handlers import StatusHandler, ConfigHandler
 import jsonschema
@@ -23,7 +24,11 @@ def getPaperSpecies(pmid):
     model = LLMHandler(systemPrompt=systemPrompt)
 
     response = model.askWithRetry(promptText, textToComplete="{")
-    
+    regex = r'\{\n.*?\n\}'
+    match = re.search(regex, response, re.DOTALL)
+    if match:
+        response = match.group(0)
+
     try:
         fullAnswer = json.loads(response)
         schema = config.getResponseSchemaForGetPaperSepcies()

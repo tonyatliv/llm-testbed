@@ -1,5 +1,6 @@
 from utils.handlers import ConfigHandler, StatusHandler
 from llms import LLMHandler
+import re
 import sys
 import json
 import jsonschema
@@ -32,7 +33,11 @@ def getPaperGOTerms(pmid: str):
             message=json.dumps(pair),
             textToComplete="["
         )
-        
+        regex = r'\[\s*(?:\{\s*"id":\s*".+?"\s*,\s*"description":\s*".+?"\s*\}\s*,?\s*)+\s*\]'
+        match = re.search(regex, res, re.DOTALL)
+        if match:
+            res = match.group(0)
+
         try:
             pairGOTermsData = json.loads(res)
             jsonschema.validate(pairGOTermsData, responseSchema)

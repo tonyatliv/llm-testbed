@@ -26,18 +26,10 @@ class localLLMAdapter(LLMInterface):
             {"role": "user", "content": message},
             {"role": "assistant", "content": textToComplete}
         ]
-        
-        assistantResponse = pipe(text_inputs=messages, max_new_tokens=8096)
-        print(assistantResponse)
+
+        assistantResponse = pipe(text_inputs=messages, max_new_tokens=8196)
 
         answer = assistantResponse[0]["generated_text"][3]["content"]
-        pattern = r"```(.*?)```"
-        match = re.search(pattern, answer, re.DOTALL)
-        if match:
-            answer = match.group(1)
-            print(answer)
-        else:
-            print("No JSON found in the text.")
 
         self.setMessageHistory(messageHistory + [
             {
