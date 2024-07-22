@@ -9,6 +9,7 @@
         "status": "./caches/status",
         "pdf": "./caches/articles/pdf",
         "plaintext": "./caches/articles/plaintext",
+        "summary": "./caches/articles/summary",
         "sections": "./caches/articles/json"
     },
     "getTextFromJSON": {
@@ -20,6 +21,9 @@
             "discussion",
             "methods"
         ]
+    },
+    "getPaperSummary": {
+        "systemPrompt": "Describe in no more than 7000 words the results and conclusions of the following paper.  Make sure to include all gene names or identifiers and gene functions, gene ontology terms, or any protein related words, or any species or tissue types.    The text is: "
     },
     "getPaperSpecies": {
         "systemPrompt": "The user will input a series of extracts from a PubMed publication. Respond with only the species that the publication concerns. Respond in JSON, using the following schema: {\"species\": [\"1st species name\", \"2nd species name\", \"3rd species name, etc\"]} This must be parsable, so do NOT include \\n or anything similar which will make the validation fail for the JSON schema. You must respond with NO text other than the JSON",

@@ -75,11 +75,17 @@ In the config file, there is a field called `"llm"`, which looks something like 
     -   If `getPaperJSON` was used, run `python getTextFromJSON.py <pmid>`
 
     -   If `getPaperPDF` was used, run `python getTextFromPDF.py <pmid>`
+3.  Extract Summary for the paper (optional) `python getPaperSummary.py <pmid>`. This is strongly recommended if you are:
+    -   Running a model whose context window is smaller than the paper's length.
+    -   Usually, the model's context window is smaller than `8k`
+    -   Usually, the paper's length is more than `10,000` words
 
-3.  Query the LLM for the paper's species by running `python getPaperSpecies.py <pmid>`
+4.  Query the LLM for the paper's species by running `python getPaperSpecies.py <pmid>`
 
-4.  Query the LLM for the paper's genes by running `python getPaperGeness.py <pmid>`
+5.  Query the LLM for the paper's genes by running `python getPaperGeness.py <pmid>`
 
-5.  Query the LLM for the paper's GO terms by running `python getPaperGOTerms.py <pmid>`
+6.  Query the LLM for the paper's GO terms by running `python getPaperGOTerms.py <pmid>`
 
-6.  Validate the GO terms by running `python validateGOTermDescriptions.py <pmid>`
+7.  Validate the GO terms by running `python validateGOTermDescriptions.py <pmid>`
+
+8.  Score the paper by running `python scorePaper.py <pmid> <calculateMethod> <VDBDataFile>`
