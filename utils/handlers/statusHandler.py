@@ -55,7 +55,13 @@ class StatusHandler:
             raise KeyError("No Plaintext filename found.")
         
         return os.path.join(ConfigHandler().getPlaintextFolderPath(), self.__status['getPlaintext']['filename'])
-            
+
+    def getSummaryFilePath(self):
+        if not helpers.hasattrdeep(self.__status, ["getPaperSummary", "filename"]):
+            raise KeyError("No Summary filename found.")
+
+        return os.path.join(ConfigHandler().getSummaryFolderPath(), self.__status['getPaperSummary']['filename'])
+
     def isJSONFetched(self):
         return helpers.hasattrdeep(self.__status, ["getPaperJSON", "success"]) and self.__status["getPaperJSON"]["success"] == True
     
@@ -64,7 +70,10 @@ class StatusHandler:
             raise KeyError("No JSON filename found.")
         
         return os.path.join(ConfigHandler().getJSONFolderPath(), self.__status['getPaperJSON']['filename'])
-    
+
+    def isSummaryFetched(self):
+        return helpers.hasattrdeep(self.__status, ["getPaperSummary", "success"]) and self.__status["getPaperSummary"]["success"] == True
+
     def areSpeciesFetched(self):
         return helpers.hasattrdeep(self.__status, ["getPaperSpecies", "success"]) and self.__status["getPaperSpecies"]["success"] == True
     

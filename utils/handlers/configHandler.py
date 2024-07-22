@@ -31,13 +31,19 @@ class ConfigHandler:
     
     def getPlaintextFolderPath(self):
         return self.__config["paths"]["plaintext"]
-    
+
+    def getSummaryFolderPath(self):
+        return self.__config["paths"]["summary"]
+
     def getJSONFolderPath(self):
         return self.__config["paths"]["sections"]
     
     def getMergeSectionsSections(self):
         return self.__config["getTextFromJSON"]["sections"]
-    
+
+    def getSystemPromptForPaperSummary(self):
+        return self.__config["getPaperSummary"]["systemPrompt"]
+
     # Get Paper Species
     def getSystemPromptForGetPaperSpecies(self):
         return self.__config["getPaperSpecies"]["systemPrompt"]

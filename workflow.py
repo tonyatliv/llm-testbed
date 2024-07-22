@@ -160,7 +160,7 @@ if __name__ == "__main__":
     # original data file name
     fileName = 'PFalciparum_3d7_gaf.json'
     # processed data from original
-    resultJSON = 'result/filtered_PMID_data.json'
+    resultJSON = './result/filtered_PMID_data.json'
     # result file
     resultXLSX = "./result/table_data.xlsx"
     # test model name
