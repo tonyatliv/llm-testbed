@@ -1,6 +1,6 @@
 import json
 import sys
-from utils.handlers import StatusHandler, ConfigHandler
+from utils.handlers import StatusHandler
 from GOntoSim import GOntoSim
 from goatools.base import get_godag
 
@@ -45,9 +45,8 @@ def scoreGOTerms(pmid: str, method: str, data_file: str):
             if score > maxScore:
                 maxScore = score
                 mostSimilarVDBGOTerm = vdbGOTerm
-        if maxScore > 0:
-            scores.append(maxScore)
-            scoreTable.append({"GO term": acceptedGOTerm, "vdb": mostSimilarVDBGOTerm, "score": maxScore})
+        scores.append(maxScore)
+        scoreTable.append({"GO term": acceptedGOTerm, "vdb": mostSimilarVDBGOTerm, "score": maxScore})
 
     if len(scoreTable) == 0:
         return 0

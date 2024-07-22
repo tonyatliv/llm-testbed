@@ -71,3 +71,6 @@ class ConfigHandler:
     
     def getResponseSchemaForValidateGOTermDescriptions(self):
         return self.__config["validateGOTermDescriptions"]["responseSchema"]
+
+    def getResultFolderPath(self):
+        return self.__config["paths"]["result"]

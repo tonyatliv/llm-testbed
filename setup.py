@@ -10,6 +10,7 @@ def setup():
         config.getPDFsFolderPath(),
         config.getPlaintextFolderPath(),
         config.getSummaryFolderPath(),
+        config.getResultFolderPath(),
     ]
     
     for folder in folders:

@@ -88,4 +88,4 @@ In the config file, there is a field called `"llm"`, which looks something like 
 
 7.  Validate the GO terms by running `python validateGOTermDescriptions.py <pmid>`
 
-8.  Score the paper by running `python scorePaper.py <pmid> <calculateMethod> <VDBDataFile>`
+8.  Score the similarity between model extraction and VEUPATHDB data by running `python scorePaper.py <pmid> <calculateMethod> <VDBDataFile>`

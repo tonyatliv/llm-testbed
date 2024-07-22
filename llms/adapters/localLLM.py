@@ -1,4 +1,3 @@
-import re
 from ..interfaces import LLMInterface
 from typing import List
 from transformers import pipeline
