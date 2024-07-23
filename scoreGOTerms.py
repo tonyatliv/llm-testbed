@@ -45,8 +45,9 @@ def scoreGOTerms(pmid: str, method: str, data_file: str):
             if score > maxScore:
                 maxScore = score
                 mostSimilarVDBGOTerm = vdbGOTerm
-        scores.append(maxScore)
-        scoreTable.append({"GO term": acceptedGOTerm, "vdb": mostSimilarVDBGOTerm, "score": maxScore})
+        if maxScore > 0:
+            scores.append(maxScore)
+            scoreTable.append({"GO term": acceptedGOTerm, "vdb": mostSimilarVDBGOTerm, "score": maxScore})
 
     if len(scoreTable) == 0:
         return 0
@@ -61,7 +62,7 @@ def scoreGOTerms(pmid: str, method: str, data_file: str):
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("Usage: python getPaperSummary.py <pmid>")
+        print("Usage: python scoreGOTerms <pmid> <method> <data_file>")
         sys.exit(1)
 
     pmid = sys.argv[1]

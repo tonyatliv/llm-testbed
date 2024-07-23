@@ -6,6 +6,7 @@ from utils.handlers import StatusHandler
 from getPaperPDF import getPaperPDF
 from getPaperJSON import getPaperJSON
 from getTextFromJSON import mergeSections
+from getPaperSummary import getPaperSummary
 from getPaperSpecies import getPaperSpecies
 from getPaperGenes import getPaperGenes
 from getPaperGOTerms import getPaperGOTerms
@@ -44,7 +45,7 @@ def getPaperPlainText(pmid: str):
             return False
 
 
-def workflow(vdbDataFile, processedVDBFile, resultXLSX, pmidNum, modelName):
+def workflow(vdbDataFile, processedVDBFile, resultXLSX, pmidNum, modelName, textSource):
     with open(vdbDataFile, 'r') as file:
         vdbData = json.load(file)
     validEntries = []
@@ -64,19 +65,23 @@ def workflow(vdbDataFile, processedVDBFile, resultXLSX, pmidNum, modelName):
     with open(processedVDBFile, 'w') as newFile:
         json.dump(validEntries, newFile, indent=4)
 
+    if textSource == "summary":
+        for pmid in pmids:
+            getPaperSummary(pmid)
+
     summaryTable = {'Model': [modelName], 'Average Score': [0]}
     for i, pmid in enumerate(pmids, start=1):
         status = StatusHandler(pmid)
         print(f"---------\nStart PMID: {pmid}'s Workflow")
         if not status.areSpeciesFetched():
             time.sleep(30)
-            getPaperSpecies(pmid)
+            getPaperSpecies(pmid, textSource)
         if not status.areGenesFetched():
             time.sleep(30)
-            getPaperGenes(pmid)
+            getPaperGenes(pmid, textSource)
         if not status.areGOTermsFetched():
             time.sleep(30)
-            getPaperGOTerms(pmid)
+            getPaperGOTerms(pmid, textSource)
         if not status.areGOTermDescriptionsValidated():
             validateGOTermDescriptions(pmid)
 
@@ -112,8 +117,10 @@ if __name__ == "__main__":
     resultXLSX = "./caches/result/table_data.xlsx"
     # test model name
     modelName = 'Claude3-haiku'
+    # specify text source
+    textSource = "summary"
 
     try:
-        workflow(vdbDataFile, processedVDBFile, resultXLSX, 100, modelName)
+        workflow(vdbDataFile, processedVDBFile, resultXLSX, 100, modelName, textSource)
     except Exception as err:
         print(f"error: {err}")
