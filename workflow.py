@@ -3,7 +3,6 @@ import os
 import pandas as pd
 import time
 from utils.handlers import StatusHandler
-from getPaperPDF import getPaperPDF
 from getPaperJSON import getPaperJSON
 from getTextFromJSON import mergeSections
 from getPaperSummary import getPaperSummary
@@ -14,36 +13,24 @@ from validateGOTermDescriptions import validateGOTermDescriptions
 from scoreGOTerms import scoreGOTerms
 
 
-def getPaperPlainText(pmid: str):
+def getPaperPlainTextFromJSON(pmid: str):
     status = StatusHandler(pmid)
-
-    if status.isJSONFetched() or status.isPDFFetched():
-        if status.isPaperConverted():
-            return True
-        else:
-            try:
-                path = mergeSections(pmid)
-                print(f"PMID {pmid}'s plaintext is stored in {path}")
-                return True
-            except Exception as err:
-                print(f"error: {err}")
-                return False
 
     if not status.isJSONFetched():
         try:
             getPaperJSON(pmid)
-            return True
         except Exception as err:
             print(f"error: {err}")
-
-    if not status.isPDFFetched():
+    if status.isJSONFetched() and status.isPaperConverted():
+        return True
+    elif status.isJSONFetched() and not status.isPaperConverted():
         try:
-            getPaperPDF(pmid)
+            path = mergeSections(pmid)
+            print(f"PMID {pmid}'s plaintext is stored in {path}")
             return True
         except Exception as err:
             print(f"error: {err}")
             return False
-
 
 def workflow(vdbDataFile, processedVDBFile, resultXLSX, pmidNum, modelName, textSource):
     with open(vdbDataFile, 'r') as file:
@@ -56,7 +43,7 @@ def workflow(vdbDataFile, processedVDBFile, resultXLSX, pmidNum, modelName, text
         if pmid in badpmids:
             continue
         if pmid:
-            if getPaperPlainText(pmid):
+            if getPaperPlainTextFromJSON(pmid):
                 pmids.append(pmid)
                 validEntries.append(entry)
                 if len(pmids) == pmidNum:
@@ -65,14 +52,13 @@ def workflow(vdbDataFile, processedVDBFile, resultXLSX, pmidNum, modelName, text
     with open(processedVDBFile, 'w') as newFile:
         json.dump(validEntries, newFile, indent=4)
 
-    if textSource == "summary":
-        for pmid in pmids:
-            getPaperSummary(pmid)
-
     summaryTable = {'Model': [modelName], 'Average Score': [0]}
     for i, pmid in enumerate(pmids, start=1):
         status = StatusHandler(pmid)
         print(f"---------\nStart PMID: {pmid}'s Workflow")
+        if not status.isSummaryFetched():
+            time.sleep(30)
+            getPaperSummary(pmid)
         if not status.areSpeciesFetched():
             time.sleep(30)
             getPaperSpecies(pmid, textSource)
@@ -118,7 +104,7 @@ if __name__ == "__main__":
     # test model name
     modelName = 'Claude3-haiku'
     # specify text source
-    textSource = "summary"
+    textSource = "plaintext"
 
     try:
         workflow(vdbDataFile, processedVDBFile, resultXLSX, 100, modelName, textSource)

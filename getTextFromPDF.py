@@ -35,7 +35,7 @@ def getTextFromPDF(pmid):
     
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python convertPDF.py <paper_id>")
+        print("Usage: python getTextFromPDF.py <paper_id>")
         sys.exit(1)
         
     pmid = sys.argv[1]

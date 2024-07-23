@@ -10,7 +10,7 @@
         "pdf": "./caches/articles/pdf",
         "plaintext": "./caches/articles/plaintext",
         "summary": "./caches/articles/summary",
-        "sections": "./caches/articles/json"
+        "sections": "./caches/articles/json",
         "result": "./caches/result"
     },
     "getTextFromJSON": {

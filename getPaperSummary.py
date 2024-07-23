@@ -33,7 +33,7 @@ def getPaperSummary(pmid):
     config = ConfigHandler()
 
     if not status.isPaperConverted():
-        return ValueError("Paper has not yet been converted to summary")
+        return ValueError("Paper has not yet been converted to plaintext")
     if status.isSummaryFetched():
         return ValueError("Summary has been fetched for this paper")
 
