@@ -41,8 +41,11 @@ class ConfigHandler:
     def getMergeSectionsSections(self):
         return self.__config["getTextFromJSON"]["sections"]
 
-    def getSystemPromptForPaperSummary(self):
-        return self.__config["getPaperSummary"]["systemPrompt"]
+    def getSectionSummarizationPromptForPaperSummary(self):
+        return self.__config["getPaperSummary"]["sectionSummarizationPrompt"]
+
+    def getTotalSummarizationPromptForPaperSummary(self):
+        return self.__config["getPaperSummary"]["totalSummarizationPrompt"]
 
     # Get Paper Species
     def getSystemPromptForGetPaperSpecies(self):

@@ -41,7 +41,8 @@ def getPaperSummary(pmid):
     with open(plaintextFilePath) as plaintextFile:
         plainText = plaintextFile.read()
 
-    systemPrompt = config.getSystemPromptForPaperSummary()
+    sectionSummarizationPrompt = config.getSectionSummarizationPromptForPaperSummary()
+    totalSumarizationPrompt = config.getTotalSummarizationPromptForPaperSummary()
 
     words = word_tokenize(plainText)
     chunkText = " "
@@ -51,16 +52,20 @@ def getPaperSummary(pmid):
     while chunkText:
         page += 1
         chunkText = getChunk(words, page)
-        prompt = systemPrompt + chunkText
+        prompt = sectionSummarizationPrompt + chunkText
         model = LLMHandler(systemPrompt=prompt)
         res = model.askWithRetry(prompt, textToComplete="Summary:")
         summary.append(res)
 
+    totalSummary = " ".join(summary)
+    prompt = totalSumarizationPrompt + totalSummary
+    model = LLMHandler(systemPrompt=prompt)
+    totalSummary = model.askWithRetry(prompt, textToComplete="Summary:")
+
     summaryFileName = f"{pmid}.txt"
     summaryFilePath = os.path.join(config.getSummaryFolderPath(), summaryFileName)
     with open(summaryFilePath, "w") as summaryFile:
-        for section in summary:
-            summaryFile.write(f"{section}\n")
+        summaryFile.write(f"{totalSummary}\n")
 
     status.updateField("getSummary", {
         "success": True,
