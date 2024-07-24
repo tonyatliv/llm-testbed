@@ -63,7 +63,7 @@ class StatusHandler:
         return os.path.join(ConfigHandler().getSummaryFolderPath(), self.__status['getSummary']['filename'])
 
     def isJSONFetched(self):
-        return helpers.hasattrdeep(self.__status, ["getPaperJSON", "success"]) and self.__status["getPaperJSON"]["success"] == True
+        return helpers.hasattrdeep(self.__status, ["getPaperJSON", "success"]) and self.__status["getPaperJSON"]["success"] is True and self.__status["getPaperJSON"]["filename"] == f"{self.__pmid}.json"
     
     def getJSONFilePath(self):
         if not helpers.hasattrdeep(self.__status, ["getPaperJSON", "filename"]):

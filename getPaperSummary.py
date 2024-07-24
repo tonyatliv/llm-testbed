@@ -69,7 +69,7 @@ def getPaperSummary(pmid):
 
     status.updateField("getSummary", {
         "success": True,
-        "sourceFileType": "json",
+        "sourceFileType": "txt",
         "filename": summaryFileName
     })
     return summaryFilePath
