@@ -18,5 +18,7 @@ class LLMFactory:
                 return OpenAIAdapter(model, systemPrompt, messageHistory)
             case "local":
                 return localLLMAdapter(model, systemPrompt, messageHistory)
+            case "quantisedLocal":
+                return quantisedLocalLLMAdapter(model, systemPrompt, messageHistory)
             case _:
                 raise ValueError("Model type not supported")
