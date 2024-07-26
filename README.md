@@ -52,6 +52,7 @@ In the config file, there is a field called `"llm"`, which looks something like 
     | --- | --- | --- |
     | `anthropic` | Anthropic's language-based models e.g. Claude | `$ANTHROPIC_API_KEY` environment variable must be set |
     | `openai` | OpenAI's language-based models e.g. ChatGPT | `$OPENAI_API_KEY` environment variable must be set |
+    | `local` | Local deployment language-based models e.g. Llama | Some models may require `huggingface-cli login` |
 
 -   The `model` parameter tells the API what specific model to use (if applicable). See documentation for more details.
 
