@@ -2,7 +2,7 @@ from ..interfaces import LLMInterface
 from typing import List
 from transformers import pipeline
 from utils.models import Message
-
+import torch
 
 class localLLMAdapter(LLMInterface):
 
@@ -18,7 +18,13 @@ class localLLMAdapter(LLMInterface):
         )
 
     def ask(self, message: str, textToComplete: str) -> str:
-        pipe = pipeline("text-generation", model=self.model)
+        if torch.cuda.is_available():
+            print("Using GPU")
+        else:
+            print("Using CPU")
+        device = 0 if torch.cuda.is_available() else -1
+        pipe = pipeline("text-generation", model=self.model, device=device)
+        print("model is running on:", pipe.model.device)
         messageHistory = self.getMessageHistory()
         messages = messageHistory + [
             {"role": "system", "content": self.systemPrompt},
