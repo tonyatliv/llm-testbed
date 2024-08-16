@@ -5,6 +5,7 @@ from llms import LLMHandler
 from nltk.tokenize import word_tokenize
 from utils.handlers import StatusHandler, ConfigHandler
 
+nltk.download('punkt')
 
 def getChunk(words, page):
     overlap = 200

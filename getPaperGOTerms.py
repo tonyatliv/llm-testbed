@@ -36,7 +36,6 @@ def getPaperGOTerms(pmid: str, textSource: str):
         model = LLMHandler(systemPrompt=systemPromptStart + promptText)
         res = model.askWithRetry(
             message=json.dumps(pair),
-            textToComplete="["
         )
         regex = r'\[\s*(?:\{\s*"id":\s*".+?"\s*,\s*"description":\s*".+?"\s*\}\s*,?\s*)+\s*\]'
         match = re.search(regex, res, re.DOTALL)
