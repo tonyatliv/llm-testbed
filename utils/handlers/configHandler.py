@@ -25,7 +25,10 @@ class ConfigHandler:
     
     def getLLM(self):
         return self.__config["llm"]["current"]["model"]
-    
+
+    def getSpecifiedSpecies(self):
+        return self.__config["specifiedSpecies"]
+
     def getPDFsFolderPath(self):
         return self.__config["paths"]["pdf"]
     

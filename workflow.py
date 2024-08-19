@@ -2,7 +2,7 @@ import json
 import os
 import pandas as pd
 import time
-from utils.handlers import StatusHandler
+from utils.handlers import StatusHandler, ConfigHandler
 from getPaperJSON import getPaperJSON
 from getTextFromJSON import mergeSections
 from getPaperSummary import getPaperSummary
@@ -74,6 +74,10 @@ if __name__ == "__main__":
     pmids = []
     badpmids = ['16507167', '18551176|24043620', '30102371', '37130129', '37192974', '27602946', '24090929', '28806784']
     for entry in vdbData:
+        species_names = [species['name'] for species in entry['species']]
+        config = ConfigHandler()
+        if config.getSpecifiedSpecies() not in species_names:
+            continue
         pmid = entry.get("PMID")
         if pmid in badpmids:
             continue
