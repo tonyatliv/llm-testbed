@@ -20,7 +20,8 @@
             "intro",
             "results",
             "discussion",
-            "methods"
+            "methods",
+            "table"
         ]
     },
     "getPaperSummary": {

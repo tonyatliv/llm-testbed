@@ -18,7 +18,7 @@ def workflow(vdbDataFile, resultXLSX, pmids, modelName, textSource):
     for i, pmid in enumerate(pmids, start=1):
         status = StatusHandler(pmid)
         print(f"---------\nStart PMID: {pmid}'s Workflow")
-        if not status.isSummaryFetched():
+        if textSource == "summary" and not status.isSummaryFetched():
             time.sleep(30)
             getPaperSummary(pmid)
         if not status.areSpeciesFetched():
