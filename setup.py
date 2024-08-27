@@ -8,7 +8,9 @@ def setup():
         config.getStatusFolderPath(),
         config.getJSONFolderPath(),
         config.getPDFsFolderPath(),
-        config.getPlaintextFolderPath()
+        config.getPlaintextFolderPath(),
+        config.getSummaryFolderPath(),
+        config.getResultFolderPath(),
     ]
     
     for folder in folders:

@@ -25,19 +25,31 @@ class ConfigHandler:
     
     def getLLM(self):
         return self.__config["llm"]["current"]["model"]
-    
+
+    def getSpecifiedSpecies(self):
+        return self.__config["specifiedSpecies"]
+
     def getPDFsFolderPath(self):
         return self.__config["paths"]["pdf"]
     
     def getPlaintextFolderPath(self):
         return self.__config["paths"]["plaintext"]
-    
+
+    def getSummaryFolderPath(self):
+        return self.__config["paths"]["summary"]
+
     def getJSONFolderPath(self):
         return self.__config["paths"]["sections"]
     
     def getMergeSectionsSections(self):
         return self.__config["getTextFromJSON"]["sections"]
-    
+
+    def getSectionSummarizationPromptForPaperSummary(self):
+        return self.__config["getPaperSummary"]["sectionSummarizationPrompt"]
+
+    def getTotalSummarizationPromptForPaperSummary(self):
+        return self.__config["getPaperSummary"]["totalSummarizationPrompt"]
+
     # Get Paper Species
     def getSystemPromptForGetPaperSpecies(self):
         return self.__config["getPaperSpecies"]["systemPrompt"]
@@ -65,3 +77,6 @@ class ConfigHandler:
     
     def getResponseSchemaForValidateGOTermDescriptions(self):
         return self.__config["validateGOTermDescriptions"]["responseSchema"]
+
+    def getResultFolderPath(self):
+        return self.__config["paths"]["result"]

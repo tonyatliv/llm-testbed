@@ -1,7 +1,34 @@
 import sys
-from utils.handlers import StatusHandler, ConfigHandler
 import json
 import os
+from utils.handlers import StatusHandler, ConfigHandler
+from xml.etree import ElementTree as ET
+
+
+def extractTableFromXML(xml):
+    root = ET.fromstring(xml)
+    tableData = []
+    headers = []
+    for thead in root.findall('.//thead'):
+        for tr in thead.findall('.//tr'):
+            row = []
+            for td in tr.findall('.//td'):
+                text = (td.text or "").strip()
+                colspan = int(td.get('colspan', 1))
+                for _ in range(colspan):
+                    row.append(text)
+            headers.append(row)
+
+    for tbody in root.findall('.//tbody'):
+        for tr in tbody.findall('.//tr'):
+            row = []
+            for td in tr.findall('.//td'):
+                text = (td.text or "").strip()
+                row.append(text)
+            tableData.append(row)
+    completeData = headers + tableData
+    return completeData
+
 
 def mergeSections(pmid):
     status = StatusHandler(pmid)
@@ -29,7 +56,11 @@ def mergeSections(pmid):
     for passage in passages:
         sectionType = passage["infons"]["section_type"].lower()
         if sectionType in sectionsToGet:
-            sections[sectionType] = sections[sectionType] + f"{passage['text']}\n"
+            if sectionType == "table" and "xml" in passage["infons"]:
+                tableData = extractTableFromXML(passage["infons"]["xml"])
+                sections[sectionType] = sections[sectionType] + str(tableData) + "\n"
+            else:
+                sections[sectionType] = sections[sectionType] + f"{passage['text']}\n"
             
     plaintextFileName = f"{pmid}.txt"
     plaintextFilePath = os.path.join(config.getPlaintextFolderPath(), plaintextFileName)

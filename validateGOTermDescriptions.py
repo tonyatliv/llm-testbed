@@ -31,7 +31,7 @@ def validateGOTermDescriptions(pmid: str):
             continue
         
         goTermAPIInfo = json.loads(res.text)
-            
+
         desc: str = ""
         if goTermAPIInfo["results"]:
             desc = goTermAPIInfo["results"][0]["name"]
