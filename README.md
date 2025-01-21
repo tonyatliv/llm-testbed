@@ -2,6 +2,8 @@
 
 Python 3 interface used to extract data from PubMed publications using LLMs, part of the PubLLican project.
 
+See the <a href="https://github.com/tonyatliv/llm-testbed/tree/experimental">Experimental</a> branch for latest updates,
+although this may not run without configureation changes.
 ## Contents
 
 [Setup](#setup)
