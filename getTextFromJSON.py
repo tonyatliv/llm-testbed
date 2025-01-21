@@ -34,14 +34,26 @@ def mergeSections(pmid):
     plaintextFileName = f"{pmid}.txt"
     plaintextFilePath = os.path.join(config.getPlaintextFolderPath(), plaintextFileName)
             
+            
+    
+    plaintextFileName = f"{pmid}.txt"
+    plaintextFilePath = os.path.join(config.getPlaintextFolderPath(), plaintextFileName)
+            
     with open(plaintextFilePath, "w") as plaintextFile:
         for section in sections.values():
             plaintextFile.write(f"{section}\n")
-    
+            
+    jsonFilePath = plaintextFilePath+".json"
+    with open(jsonFilePath, "w") as jsonFile:
+        json.dump(sections, jsonFile, indent=4)  #     
+            
+    jsonFileName = plaintextFileName + ".json"
+
     status.updateField("getPlaintext", {
         "success": True,
         "sourceFileType": "json",
-        "filename": plaintextFileName
+        "filename": plaintextFileName,
+        "json" : jsonFileName
     })
     
     return plaintextFilePath

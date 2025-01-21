@@ -23,6 +23,10 @@ def validateGOTermDescriptions(pmid: str):
     apiFailedGOTerms = []
     
     for term in goTerms:
+        if "validated" in term:
+            acceptedGOTerms.append(term)
+            continue
+
         reqURL = f"https://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/{term['id']}"
         res = requests.get(reqURL, headers={ "Accept" : "application/json"})
         if not res.ok:
@@ -31,7 +35,7 @@ def validateGOTermDescriptions(pmid: str):
             continue
         
         goTermAPIInfo = json.loads(res.text)
-            
+
         desc: str = ""
         if goTermAPIInfo["results"]:
             desc = goTermAPIInfo["results"][0]["name"]

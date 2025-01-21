@@ -15,9 +15,13 @@ def getPaperJSON(pmid: str):
     
     res = requests.get(url)
     if res.status_code != 200:
-        raise Exception("No JSON data found for this paper")
+        raise Exception("No JSON data found for this paper") from None
     
-    articleJSON = json.loads(res.content)
+    try:
+        articleJSON = json.loads(res.content)
+    except:
+        raise Exception("No valid JSON data found for this paper "+pmid) from None
+    
     
     jsonFileName = f"{pmid}.json"
     jsonFilePath = os.path.join(config.getJSONFolderPath(), jsonFileName)

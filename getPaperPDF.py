@@ -13,12 +13,12 @@ def getPaperPDF(pmid):
     
     pdfURL = metapub.FindIt(pmid).url
     if pdfURL is None:
-        raise ValueError("No PDF found for this paper.")
+        raise ValueError("No PDF found for this paper."+str(pmid))
     
     res = requests.get(pdfURL)
     if res.status_code != 200:
         print(res.reason)
-        raise requests.exceptions.RequestException("Failed to fetch PDF")
+        raise requests.exceptions.RequestException("Failed to fetch PDF"+str(pmid))
     
     pdfFileName= f"{pmid}.pdf"
     pdfFilePath = os.path.join(config.getPDFsFolderPath(), pdfFileName)

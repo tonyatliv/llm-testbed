@@ -38,6 +38,16 @@ class StatusHandler:
     def getPMID(self):
         return self.__pmid
     
+    def getStatusField(self,category, field):
+        if not helpers.hasattrdeep(self.__status, [category, field]):
+            raise KeyError("No field found."+category+" , "+field)
+        return self.__status[category][field]
+         
+    def getQuotes(self):
+        if not helpers.hasattrdeep(self.__status, ["getQuotes", "response"]):
+            raise KeyError("No getQuotes found.")
+        return self.__status['getQuotes']['response']
+        
     def getPDFPath(self):
         if not helpers.hasattrdeep(self.__status, ["getPaperPDF", "filename"]):
             raise KeyError("No PDF filename found.")
@@ -55,16 +65,25 @@ class StatusHandler:
             raise KeyError("No Plaintext filename found.")
         
         return os.path.join(ConfigHandler().getPlaintextFolderPath(), self.__status['getPlaintext']['filename'])
-            
+
+    def getSummaryFilePath(self):
+        if not helpers.hasattrdeep(self.__status, ["getSummary", "filename"]):
+            raise KeyError("No Summary filename found.")
+
+        return os.path.join(ConfigHandler().getSummaryFolderPath(), self.__status['getSummary']['filename'])
+
     def isJSONFetched(self):
-        return helpers.hasattrdeep(self.__status, ["getPaperJSON", "success"]) and self.__status["getPaperJSON"]["success"] == True
+        return helpers.hasattrdeep(self.__status, ["getPaperJSON", "success"]) and self.__status["getPaperJSON"]["success"] is True and self.__status["getPaperJSON"]["filename"] == f"{self.__pmid}.json"
     
     def getJSONFilePath(self):
         if not helpers.hasattrdeep(self.__status, ["getPaperJSON", "filename"]):
             raise KeyError("No JSON filename found.")
         
         return os.path.join(ConfigHandler().getJSONFolderPath(), self.__status['getPaperJSON']['filename'])
-    
+
+    def isSummaryFetched(self):
+        return helpers.hasattrdeep(self.__status, ["getSummary", "success"]) and self.__status["getSummary"]["success"] == True
+
     def areSpeciesFetched(self):
         return helpers.hasattrdeep(self.__status, ["getPaperSpecies", "success"]) and self.__status["getPaperSpecies"]["success"] == True
     
