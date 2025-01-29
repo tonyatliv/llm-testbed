@@ -2,6 +2,8 @@
 
 Python 3 interface used to extract data from PubMed publications using LLMs, part of the PubLLican project.
 
+This experimental branch contains many additional features - and searches for 'quotes' from papers, by comparison with Go term descriptions.
+
 ## Contents
 
 [Setup](#setup)
@@ -52,6 +54,7 @@ In the config file, there is a field called `"llm"`, which looks something like 
     | --- | --- | --- |
     | `anthropic` | Anthropic's language-based models e.g. Claude | `$ANTHROPIC_API_KEY` environment variable must be set |
     | `openai` | OpenAI's language-based models e.g. ChatGPT | `$OPENAI_API_KEY` environment variable must be set |
+    | `external` | Local deployment language-based models e.g. Llama, accessed via Shell script| Some models may require `huggingface-cli login` |
 
 -   The `model` parameter tells the API what specific model to use (if applicable). See documentation for more details.
 
