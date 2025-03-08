@@ -1,0 +1,3 @@
+[submodule "GOntoSim"]
+	path = GOntoSim
+	url = https://github.com/cbrl-nuces/GOntoSim.git

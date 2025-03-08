@@ -3,8 +3,8 @@
 config.json
 
 **/.DS_Store
+.idea/
 
-### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -71,6 +71,8 @@ db.sqlite3-journal
 # Flask stuff:
 instance/
 .webassets-cache
+
+go-basic.obo
 
 # Scrapy stuff:
 .scrapy
