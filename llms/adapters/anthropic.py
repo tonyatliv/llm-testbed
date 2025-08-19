@@ -46,6 +46,10 @@ class AnthropicAdapter(LLMInterface):
             return cachedResponse
 
 
+<<<<<<< Updated upstream
+=======
+        print("*",end="")
+>>>>>>> Stashed changes
         res = client.messages.create(
             model=self.model,
             max_tokens=4096,

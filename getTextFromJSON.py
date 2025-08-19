@@ -3,6 +3,35 @@ from utils.handlers import StatusHandler, ConfigHandler
 import json
 import os
 
+
+def getTitleData(pmid):
+    status = StatusHandler(pmid)
+    jsonFilePath = status.getJSONFilePath()
+    
+    with open(jsonFilePath, "r") as jsonFile:
+        article = json.load(jsonFile)
+        
+    sectionsToGet = {"title"}
+  
+    
+    passages = []
+    for a in article:
+        for document in a["documents"]:
+            passages += document["passages"]
+    doc_length = 0           
+    titleSection =  {}
+    for passage in passages:
+        sectionType = passage["infons"]["section_type"].lower()
+        
+        doc_length += len(passage.get("text",""))
+        
+        if sectionType in sectionsToGet:
+             titleSection = passage["infons"]
+             
+    titleSection["document_length"] = doc_length
+    return titleSection 
+    
+            
 def mergeSections(pmid):
     status = StatusHandler(pmid)
     config = ConfigHandler()
@@ -10,8 +39,8 @@ def mergeSections(pmid):
     if not status.isJSONFetched():
         raise ValueError("Paper JSON not yet fetched")
     
-    if status.isPaperConverted():
-        raise ValueError("Text file already generated")
+    #if status.isPaperConverted():
+    #    raise ValueError("Text file already generated")
     
     jsonFilePath = status.getJSONFilePath()
     

@@ -146,7 +146,11 @@ def find(string):
             continue
         foundid[goid] = 1
             
+<<<<<<< Updated upstream
         n = (goid,float(r[1]),go_data[goid]['name'], go_data[goid]['definition'])
+=======
+        n = (goid,float(r[1]),go_data[goid]['name'], go_data[goid]['definition'],string)
+>>>>>>> Stashed changes
         new_results.append(n)
         if len(new_results)  >= SHOW_RESULTS:
             break

@@ -65,6 +65,60 @@ class StatusHandler:
             raise KeyError("No Plaintext filename found.")
         
         return os.path.join(ConfigHandler().getPlaintextFolderPath(), self.__status['getPlaintext']['filename'])
+<<<<<<< Updated upstream
+=======
+    def getGOScoreStats(self):
+        if not helpers.hasattrdeep(self.__status, ["scoreGOTerms", "stats"]):
+            raise KeyError("No stats  found.")
+        
+        return self.__status['scoreGOTerms']['stats']
+
+# This stores as structured  plain text (in sections - set by 'merge' function )
+
+    def getPlaintextJsonFilePath(self):
+        if not helpers.hasattrdeep(self.__status, ["getPlaintext", "json"]):
+            raise KeyError("No Plaintext filename found.")
+        
+        return os.path.join(ConfigHandler().getPlaintextFolderPath(), self.__status['getPlaintext']['json'])
+
+ 
+    def getJSONResults(self):
+        
+        jsonData = {}
+        try:
+            jsonFile = self.getPlaintextJsonFilePath()
+            
+            with open(jsonFile) as f:
+                jsonData = json.load(f)
+        except Exception as e:
+            print("No JSON",e)
+            pass
+       
+       
+        
+        
+        if "results" in jsonData:
+            
+            
+            promptText = jsonData["results"]
+            if "table" in jsonData:
+                promptText += jsonData["table"]
+            if "fig" in jsonData:
+                promptText += jsonData["fig"]
+            return promptText
+ 
+        print("JSON RESULTS NOT FOUND",jsonData)    
+        promptText = ""    
+        try:
+            txtFile = self.getPlaintextFilePath()
+            with open(txtFile) as f:
+                promptText = f.read()
+        except:
+            pass
+            
+        return promptText
+        
+>>>>>>> Stashed changes
 
     def getSummaryFilePath(self):
         if not helpers.hasattrdeep(self.__status, ["getSummary", "filename"]):
@@ -120,6 +174,15 @@ class StatusHandler:
     
     def areGOTermsFetched(self):
         return helpers.hasattrdeep(self.__status, ["getPaperGOTerms", "success"]) and self.__status["getPaperGOTerms"]["success"] == True
+    
+    
+    def getStructuredGOTerms(self):
+        if not self.areGOTermsFetched():
+            raise ValueError("Go terms are not yet fetched for this paper")
+        
+        return self.__status["getPaperGOTerms"]["structuredGoTerms"]
+    
+    
     
     def getFetchedGOTerms(self):
         if not self.areGOTermsFetched():

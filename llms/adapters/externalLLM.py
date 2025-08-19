@@ -41,7 +41,11 @@ class externalLLMAdapter(LLMInterface):
         prompt = message
         
         
+<<<<<<< Updated upstream
         key = "llama33.1i+prompt-caching-2024-07-31" + str(messageHistory) + str(textToComplete) + str(message) + str(self.systemPrompt)    + str(self.model)
+=======
+        key = "sonnet+prompt-caching-2025-05-06" + str(messageHistory) + str(textToComplete) + str(message) + str(self.systemPrompt)    + str(self.model)
+>>>>>>> Stashed changes
         #key = "sonnet"+key
         
       #  print("ask_keytext=",key)

@@ -29,11 +29,29 @@ def getPaperSpecies(pmid, textSource):
     model = LLMHandler(systemPrompt=systemPrompt)
 
     response = model.askWithRetry(promptText, textToComplete="{")
+<<<<<<< Updated upstream
+=======
+    print("SPR:",response)
+    
+    
+>>>>>>> Stashed changes
     regex = r'\{\n.*?\n\}'
     match = re.search(regex, response, re.DOTALL)
     if match:
         response = match.group(0)
+<<<<<<< Updated upstream
 
+=======
+    
+    
+    regex = r'\{.*?\}'  # Match JSON-like content between braces
+    match = re.search(regex, response, re.DOTALL)
+    if match:
+        response = match.group(0)
+    
+    
+    print("SPR:",response)
+>>>>>>> Stashed changes
     try:
         fullAnswer = json.loads(response)
         schema = config.getResponseSchemaForGetPaperSepcies()
@@ -45,6 +63,9 @@ def getPaperSpecies(pmid, textSource):
         })
         raise Exception(err)
     
+    print("SPECIES=",fullAnswer)
+    if len(fullAnswer) == 0:
+        fullAnswer = ["any"]
     status.updateField("getPaperSpecies", {
         "success": True,
         "response": fullAnswer,
